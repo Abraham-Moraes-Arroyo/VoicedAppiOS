@@ -217,88 +217,6 @@ class SanitationStatusCompleteShown: ObservableObject {
 }
 
 
-// I am going to try to have both of the classes here for open and closed sanitation calles
-// WE ARE GOING TO BEGIN WITH THE COMPLETED CALLS
-// Define a ViewModel to fetch and store data from the API
-//class FinishedSanitation: ObservableObject {
-//    @Published var complaints2: [PotholeComplaint] = []
-//
-//    // I just did a few fields in the Pothole url
-//    // You will need to modify this code to grab any other stuff you need
-//    func fetchData() {
-//        let urlString = "https://data.cityofchicago.org/resource/v6vf-nfxy.json?sr_type=Sanitation%20Code%20Violation&&community_area=61&&status=Completed"
-//        guard let url = URL(string: urlString) else {
-//            print("Invalid URL")
-//            return
-//        }
-//
-//        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-//            if let data = data {
-//                do {
-//                    let decodedResponse = try JSONDecoder().decode([PotholeComplaint].self, from: data)
-//                    DispatchQueue.main.async {
-//                        self?.complaints2 = decodedResponse
-//                    }
-//                    // Print each complaint's details to the console for debugging.
-//                    for complaint in decodedResponse {
-//                        print("SR Number: \(complaint.srNumber), SR Type: \(complaint.srType), Status: \(complaint.status)")
-//                    }
-//                } catch {
-//                    DispatchQueue.main.async {
-//                        print("Decoding failed: \(error.localizedDescription)")
-//                    }
-//                }
-//            } else if let error = error {
-//                DispatchQueue.main.async {
-//                    print("Fetch failed: \(error.localizedDescription)")
-//                }
-//            }
-//        }.resume()
-//    }
-//}// End of completed Calls
-//
-
-// OPEN SANITATION CALLS
-// Define a ViewModel to fetch and store data from the API
-//class OpenSantinationCalls: ObservableObject {
-//    @Published var complaints: [PotholeComplaint] = []
-//
-//    // I just did a few fields in the Pothole url
-//    // You will need to modify this code to grab any other stuff you need
-//    func fetchData() {
-//        let urlString = "https://data.cityofchicago.org/resource/v6vf-nfxy.json?sr_type=Sanitation%20Code%20Violation&&community_area=61&&status=Open"
-//        guard let url = URL(string: urlString) else {
-//            print("Invalid URL")
-//            return
-//        }
-//
-//        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-//            if let data = data {
-//                do {
-//                    let decodedResponse = try JSONDecoder().decode([PotholeComplaint].self, from: data)
-//                    DispatchQueue.main.async {
-//                        self?.complaints = decodedResponse
-//                    }
-//                    // Print each complaint's details to the console for debugging.
-//                    for complaint in decodedResponse {
-//                        print("SR Number: \(complaint.srNumber), SR Type: \(complaint.srType), Status: \(complaint.status)")
-//                    }
-//                } catch {
-//                    DispatchQueue.main.async {
-//                        print("Decoding failed: \(error.localizedDescription)")
-//                    }
-//                }
-//            } else if let error = error {
-//                DispatchQueue.main.async {
-//                    print("Fetch failed: \(error.localizedDescription)")
-//                }
-//            }
-//        }.resume()
-//    }
-//}
-//
-//
-//
 
 
 
@@ -310,39 +228,71 @@ struct HighlightsView: View { // make sure that this is differnet
     var body: some View {
             
         ScrollView {
-            
             // here is where I am going to be droping a chart
-            
-            
             VStack {
+                VStack{
+                    Text("Monthly Dashboard")
+                        .font(.title )
+                        
+                    Spacer()
+                    Spacer()
+                    Text("Top 311 Reports")
+                }
+                .offset(y: 70.0)
                 Chart{
                     BarMark(x:.value("type", "Open Sanitation calls"),
                             y:.value("Open Issues", viewModel.openComplaints.count))
                     
                     BarMark(x:.value("type", "Closed Sanitation calls"),
                             y:.value("Completed Issues", viewModel.completedComplaints.count))
-                    
-                    
+                     
                     BarMark(x:.value("type", "Closed Pothole calls"),
                             y:.value("Closed Issues", viewModel.closedComplaintPot.count))
                     
                     BarMark(x:.value("type", "Open Pothole calls"),
                             y:.value("Open Issues", viewModel.openComplaintPot.count))
                 
-                  
-                    
-//                    BarMark(x:.value("Type", "Completed Pothole Number"),
-//                            y:.value(" incompleted calls", Beans.complaints.count))
-                    
-//                    BarMark(x:.value("Type", "Completed Pothole Number"),
-//                            y:.value(" incompleted calls", Beans.complaints.count))
                 }
                 .aspectRatio(1, contentMode: .fit)
-                .padding()
+                .padding(60)
+                VStack{
+
+                VStack{
+                    RoundedRectangle(cornerRadius: 4.0)
+                        .fill(Color.green)
+                        .frame(width: 300, height: 100)
+                }
+                VStack{
+                    RoundedRectangle(cornerRadius: 4.0)
+                        .fill(Color.blue)
+                        .frame(width: 300, height: 100)
+                }
+                    VStack{
+                        Text("Sanitation Reports completed")
+                        var averageSan = (viewModel.openComplaintPot.count + viewModel.closedComplaintPot.count) % 100
+                        Text("\(averageSan) %")
+                        Text("Includes: Graffiti, Street Cleanups ")
+                            .foregroundColor(.gray)
+                            .font(.subheadline)
+                    }
+                    .offset(y:-200)
+                    
+                    VStack{
+                        Text("Sanitation Reports completed")
+                        var averageSanO = (viewModel.openComplaints.count + viewModel.completedComplaints.count) % 100
+                        Text("\(averageSanO) %")
+                        Text("Includes: Potholes in New City ")
+                            .foregroundColor(.gray)
+                            .font(.subheadline)
+                    }
+                    .offset(y:-155)
+                }
+                .offset(y:-50)
                 
-                
-                
-            }
+            }// end of Vstack
+           
+            
+            
             VStack {
 //                List(viewModel.openComplaints) { complaint in
 //                    VStack(alignment: .leading) {
