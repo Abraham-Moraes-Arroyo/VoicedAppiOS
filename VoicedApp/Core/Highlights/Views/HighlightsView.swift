@@ -250,17 +250,14 @@ struct HighlightsView: View { // make sure that this is differnet
                     BarMark(x:.value("type", "Open Pothole calls"),
                             y:.value("Open Issues", viewModel.openComplaintPot.count))
                 
-                
                 }
                 .aspectRatio(1, contentMode: .fit)
                 .padding(60)
-                .annotation(position: .overlay, alignment: .center) {
-                  // 
-                }
-                
-                
                 
             }
+           
+            
+            
             VStack {
 //                List(viewModel.openComplaints) { complaint in
 //                    VStack(alignment: .leading) {
