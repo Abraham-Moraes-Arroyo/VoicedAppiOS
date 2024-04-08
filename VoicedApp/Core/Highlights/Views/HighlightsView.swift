@@ -255,6 +255,9 @@ struct HighlightsView: View { // make sure that this is differnet
                 }
                 .aspectRatio(1, contentMode: .fit)
                 .padding(60)
+                VStack{
+                    Text("Bottom text")
+                }
                 
             }// end of Vstack
            
