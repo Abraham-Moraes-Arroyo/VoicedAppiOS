@@ -255,8 +255,16 @@ struct HighlightsView: View { // make sure that this is differnet
                 }
                 .aspectRatio(1, contentMode: .fit)
                 .padding(60)
+                
                 VStack{
-                    Text("Bottom text")
+                    RoundedRectangle(cornerRadius: 4.0)
+                        .fill(Color.green)
+                        .frame(width: 300, height: 100)
+                }
+                VStack{
+                    RoundedRectangle(cornerRadius: 4.0)
+                        .fill(Color.blue)
+                        .frame(width: 300, height: 100)
                 }
                 
             }// end of Vstack
