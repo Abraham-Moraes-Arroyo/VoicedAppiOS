@@ -233,6 +233,9 @@ struct HighlightsView: View { // make sure that this is differnet
             
             
             VStack {
+                VStack{
+                    Text("Monthly Dashboard")
+                }
                 Chart{
                     BarMark(x:.value("type", "Open Sanitation calls"),
                             y:.value("Open Issues", viewModel.openComplaints.count))
@@ -247,13 +250,7 @@ struct HighlightsView: View { // make sure that this is differnet
                     BarMark(x:.value("type", "Open Pothole calls"),
                             y:.value("Open Issues", viewModel.openComplaintPot.count))
                 
-                  
-                    
-//                    BarMark(x:.value("Type", "Completed Pothole Number"),
-//                            y:.value(" incompleted calls", Beans.complaints.count))
-                    
-//                    BarMark(x:.value("Type", "Completed Pothole Number"),
-//                            y:.value(" incompleted calls", Beans.complaints.count))
+                
                 }
                 .aspectRatio(1, contentMode: .fit)
                 .padding(60)
