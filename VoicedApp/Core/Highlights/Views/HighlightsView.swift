@@ -338,7 +338,7 @@ struct HighlightsView: View { // make sure that this is differnet
 //                            y:.value(" incompleted calls", Beans.complaints.count))
                 }
                 .aspectRatio(1, contentMode: .fit)
-                .padding()
+                .padding(60)
                 
                 
                 
