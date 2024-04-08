@@ -276,8 +276,9 @@ struct HighlightsView: View { // make sure that this is differnet
                 
                 VStack{
                     Text("Sanitation Reports completed")
-                    var averageSan = (viewModel.openComplaints.count + viewModel.completedComplaints.count) % 100
-                    Text("\(averageSan) %")                }
+                    var averageSanO = (viewModel.openComplaints.count + viewModel.completedComplaints.count) % 100
+                    Text("\(averageSanO) %")
+                }
                 .offset(y:-135)
                 
             }// end of Vstack
