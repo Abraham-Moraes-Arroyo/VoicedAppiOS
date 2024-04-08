@@ -9,7 +9,7 @@ import Foundation
 
 class ProfileViewModel: ObservableObject {
     private let user: User
-    
+    private var blockedUsers = [String]()
     // these will be used for filtering in the user contest list view
     @Published var posts = [Post]()
     @Published var likedPosts = [Post]()
@@ -18,8 +18,23 @@ class ProfileViewModel: ObservableObject {
     init(user: User) {
         self.user = user
         
-        Task { try await fetchUserPosts() }
+        Task { await fetchBlockedUsers()
+            try await fetchUserContent() }
     }
+    
+    private func fetchBlockedUsers() async {
+            do {
+                self.blockedUsers = try await UserService.fetchBlockedUsers(forUserId: user.id)
+            } catch {
+                print("Error fetching blocked users: \(error)")
+            }
+        }
+    
+    private func fetchUserContent() async throws {
+            try await fetchUserPosts()
+            try await fetchLikedPosts()
+            try await fetchBookmarkedPosts()
+        }
     
     @MainActor
     func fetchUserPosts() async throws{
@@ -34,7 +49,8 @@ class ProfileViewModel: ObservableObject {
         func fetchLikedPosts() async throws {
             do {
                 let likedPostIDs = try await PostService.fetchLikedPostIDs()
-                let allPosts = try await PostService.fetchForumPosts()
+                let allPosts = try await PostService.fetchFilteredForumPosts(excludeUserIds: self.blockedUsers)
+                
                 self.likedPosts = allPosts.filter { likedPostIDs.contains($0.id) }
             } catch {
                 print("Failed to fetch liked posts: \(error)")
@@ -46,7 +62,8 @@ class ProfileViewModel: ObservableObject {
         func fetchBookmarkedPosts() async throws {
             do {
                 let bookmarkedPostIDs = try await PostService.fetchBookmarkedPostIDs()
-                let allPosts = try await PostService.fetchForumPosts()
+                let allPosts = try await PostService.fetchFilteredForumPosts(excludeUserIds: self.blockedUsers)
+                
                 self.bookmarkedPosts = allPosts.filter { bookmarkedPostIDs.contains($0.id) }
             } catch {
                 print("Failed to fetch bookmarked posts: \(error)")

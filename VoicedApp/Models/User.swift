@@ -16,6 +16,8 @@ struct User: Identifiable, Codable, Hashable {
     var bio: String?
     let email: String
     
+    var blockedUsers: [String]? 
+    
     // Storing enums as strings for Firestore compatibility
     var selectedCommunityIssues: [String]?
     var communityIssueOther: String?
