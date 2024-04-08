@@ -228,10 +228,7 @@ struct HighlightsView: View { // make sure that this is differnet
     var body: some View {
             
         ScrollView {
-            
             // here is where I am going to be droping a chart
-            
-            
             VStack {
                 VStack{
                     Text("Monthly Dashboard")
@@ -248,8 +245,7 @@ struct HighlightsView: View { // make sure that this is differnet
                     
                     BarMark(x:.value("type", "Closed Sanitation calls"),
                             y:.value("Completed Issues", viewModel.completedComplaints.count))
-                    
-                    
+                     
                     BarMark(x:.value("type", "Closed Pothole calls"),
                             y:.value("Closed Issues", viewModel.closedComplaintPot.count))
                     
@@ -260,7 +256,7 @@ struct HighlightsView: View { // make sure that this is differnet
                 .aspectRatio(1, contentMode: .fit)
                 .padding(60)
                 
-            }
+            }// end of Vstack
            
             
             
