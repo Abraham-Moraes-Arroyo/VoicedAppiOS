@@ -255,7 +255,8 @@ struct HighlightsView: View { // make sure that this is differnet
                 }
                 .aspectRatio(1, contentMode: .fit)
                 .padding(60)
-                
+                VStack{
+
                 VStack{
                     RoundedRectangle(cornerRadius: 4.0)
                         .fill(Color.green)
@@ -266,20 +267,23 @@ struct HighlightsView: View { // make sure that this is differnet
                         .fill(Color.blue)
                         .frame(width: 300, height: 100)
                 }
-                
-                VStack{
-                    Text("Sanitation Reports completed")
-                    var averageSan = (viewModel.openComplaintPot.count + viewModel.closedComplaintPot.count) % 100
-                    Text("\(averageSan) %")
+                    VStack{
+                        Text("Sanitation Reports completed")
+                        var averageSan = (viewModel.openComplaintPot.count + viewModel.closedComplaintPot.count) % 100
+                        Text("\(averageSan) %")
+                        Text("Includes: Graffiti, Street Cleanups ")
+                    }
+                    .offset(y:-200)
+                    
+                    VStack{
+                        Text("Sanitation Reports completed")
+                        var averageSanO = (viewModel.openComplaints.count + viewModel.completedComplaints.count) % 100
+                        Text("\(averageSanO) %")
+                        Text("Includes: Potholes in New City ")
+                    }
+                    .offset(y:-155)
                 }
-                .offset(y:-200)
-                
-                VStack{
-                    Text("Sanitation Reports completed")
-                    var averageSanO = (viewModel.openComplaints.count + viewModel.completedComplaints.count) % 100
-                    Text("\(averageSanO) %")
-                }
-                .offset(y:-135)
+                .offset(y:-50)
                 
             }// end of Vstack
            
