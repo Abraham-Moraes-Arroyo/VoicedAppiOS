@@ -235,7 +235,12 @@ struct HighlightsView: View { // make sure that this is differnet
             VStack {
                 VStack{
                     Text("Monthly Dashboard")
+                        
+                    Spacer()
+                    Spacer()
+                    Text("Top 311 Reports")
                 }
+                .offset(y: 70.0)
                 Chart{
                     BarMark(x:.value("type", "Open Sanitation calls"),
                             y:.value("Open Issues", viewModel.openComplaints.count))
