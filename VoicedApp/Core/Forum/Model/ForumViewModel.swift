@@ -14,11 +14,15 @@ class ForumViewModel: ObservableObject {
     @Published var filteredPosts = [Post]()
         private var currentCategory: PostCategory = .miscellaneous
     // current category represents the default category
+    private var blockedUsers = [String]()
     
     @Published var isLoading = false
     
     init() {
-        Task { try await fetchPosts()
+        Task {
+            await fetchBlockedUsers()
+            
+            try await fetchPosts()
             // Directly using the specific URL when calling the method
                     let htmlContent = await fetchHTMLContent(from: "https://blockclubchicago.org/category/back-of-the-yards/")
                     await updatePostsFromHTML(htmlContent: htmlContent)
@@ -31,7 +35,9 @@ class ForumViewModel: ObservableObject {
     func fetchPosts() async throws {
         self.isLoading = true
         
-        let fetchedPosts = try await PostService.fetchForumPosts()
+        let fetchedPosts = try await PostService.fetchFilteredForumPosts(excludeUserIds: blockedUsers)
+        
+        self.isLoading = false
         print("Fetched posts: \(fetchedPosts.count)")
 
         self.isLoading = false
@@ -46,6 +52,14 @@ class ForumViewModel: ObservableObject {
         }
     }
 
+    private func fetchBlockedUsers() async {
+            guard let currentUserId = Auth.auth().currentUser?.uid else { return }
+            do {
+                blockedUsers = try await UserService.fetchBlockedUsers(forUserId: currentUserId)
+            } catch {
+                print("Error fetching blocked users: \(error)")
+            }
+        }
 
     
     

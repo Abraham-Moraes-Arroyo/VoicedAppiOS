@@ -177,3 +177,21 @@ extension ForumCellViewModel {
         }
     }
 }
+
+extension ForumCellViewModel {
+    func blockUser(userToBlockId: String) async throws {
+        guard let currentUserId = Auth.auth().currentUser?.uid else { return }
+        
+        // Call UserService to block the user
+        do {
+            try await UserService.blockUser(currentUserId: currentUserId, userToBlockId: userToBlockId)
+                    
+                } catch {
+                    print("Error blocking user: \(error)")
+                    
+                }
+    }
+}
+
+
+

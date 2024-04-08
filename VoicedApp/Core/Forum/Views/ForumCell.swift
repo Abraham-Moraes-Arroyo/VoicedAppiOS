@@ -10,17 +10,27 @@
 import SwiftUI
 import Kingfisher
 import UIKit
+import FirebaseAuth
 
 struct ForumCell: View {
+    
     @ObservedObject var viewModel: ForumCellViewModel
-    @State private var showReportReason = false
     @State private var showReportSheet = false
     @State private var reportReason = "" // To store user input
        @State private var showingReportSheet = false
     
+    @State private var showingBlockSheet = false
+    
+    @State private var showToast = false
+    @State private var toastMessage = ""
+    
     private var post: Post {
         return viewModel.post
     }
+    
+    private var isCurrentUser: Bool {
+            Auth.auth().currentUser?.uid == post.user?.id
+        }
     
     private var didLike: Bool {
         return post.didLike ?? false
@@ -163,33 +173,58 @@ struct ForumCell: View {
                 }
             }
             
-//            TextField("Reason for reporting", text: $reportReason)
-//                       .textFieldStyle(RoundedBorderTextFieldStyle())
-            
-                   
-                   Button(action: {  showingReportSheet = true }) {
-                       HStack {
-                           Image(systemName: "flag")
-                           
-                       }
-                      
-                   }
-                   .actionSheet(isPresented: $showingReportSheet) {
-                       ActionSheet(title: Text("Confirm Report"), message: Text("Submit your report?"), buttons: [
+            if !isCurrentUser && post.isUserGenerated {
+                Button(action: { showingReportSheet = true }) {
+                    Image(systemName: "flag")
+                }
+                .actionSheet(isPresented: $showingReportSheet) {
+                    ActionSheet(title: Text("Confirm Report"), message: Text("Submit your report?"), buttons: [
                         .destructive(Text("Report"), action: {
                             Task {
                                 do {
+                                    // Assuming `reportPost` is correctly implemented in the ViewModel
                                     try await viewModel.reportPost(reason: reportReason)
-                                    // Reset reason after reporting
-                                    reportReason = ""
+                                    reportReason = "" // Reset reason after reporting
                                 } catch {
                                     // Handle error
+                                    print("Failed to report post: \(error.localizedDescription)")
                                 }
                             }
                         }),
                         .cancel()
-                       ])
-                   }
+                    ])
+                }
+
+                Button(action: { showingBlockSheet = true }) {
+                    Image(systemName: "nosign")
+                }
+                .actionSheet(isPresented: $showingBlockSheet) {
+                    ActionSheet(title: Text("Block user"), message: Text("Would you like to block this user?" +
+                        " Note: You won't see their content next time you log in")
+                        .font(.caption), buttons: [
+                        .destructive(Text("Block"), action: {
+                            Task {
+                                do {
+                                    // Ensure viewModel has a `blockUser` function
+                                    try await viewModel.blockUser(userToBlockId: post.user?.id ?? "")
+                                    toastMessage = "User successfully blocked."
+                                                    showToast = true
+                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                                        showToast = false // Hide the toast after 3 seconds
+                                                    }
+                                } catch {
+                                    toastMessage = "Failed to block user: \(error.localizedDescription)"
+                                                    showToast = true
+                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                                        showToast = false
+                                                    }
+                                }
+                            }
+                        }),
+                        .cancel()
+                    ])
+                }
+            }
                        
             
             Spacer()
