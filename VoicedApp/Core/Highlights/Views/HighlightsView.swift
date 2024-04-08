@@ -254,6 +254,9 @@ struct HighlightsView: View { // make sure that this is differnet
                 }
                 .aspectRatio(1, contentMode: .fit)
                 .padding(60)
+                .annotation(position: .overlay, alignment: .center) {
+                  // 
+                }
                 
                 
                 
