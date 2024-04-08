@@ -235,6 +235,7 @@ struct HighlightsView: View { // make sure that this is differnet
             VStack {
                 VStack{
                     Text("Monthly Dashboard")
+                        .font(.title )
                         
                     Spacer()
                     Spacer()
