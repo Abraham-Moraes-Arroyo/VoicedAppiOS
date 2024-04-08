@@ -272,6 +272,8 @@ struct HighlightsView: View { // make sure that this is differnet
                         var averageSan = (viewModel.openComplaintPot.count + viewModel.closedComplaintPot.count) % 100
                         Text("\(averageSan) %")
                         Text("Includes: Graffiti, Street Cleanups ")
+                            .foregroundColor(.gray)
+                            .font(.subheadline)
                     }
                     .offset(y:-200)
                     
@@ -280,6 +282,8 @@ struct HighlightsView: View { // make sure that this is differnet
                         var averageSanO = (viewModel.openComplaints.count + viewModel.completedComplaints.count) % 100
                         Text("\(averageSanO) %")
                         Text("Includes: Potholes in New City ")
+                            .foregroundColor(.gray)
+                            .font(.subheadline)
                     }
                     .offset(y:-155)
                 }
