@@ -267,6 +267,12 @@ struct HighlightsView: View { // make sure that this is differnet
                         .frame(width: 300, height: 100)
                 }
                 
+                VStack{
+                    Text("Sanitation Reports completed")
+                    var averageSan = viewModel.openComplaintPot.count
+                }
+                .offset(y:-200)
+                
             }// end of Vstack
            
             
