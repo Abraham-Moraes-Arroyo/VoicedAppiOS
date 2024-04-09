@@ -8,33 +8,28 @@
 import SwiftUI
 
 struct PollsView: View {
-    let polls: [Poll] // Assuming this array is provided, e.g., from a ViewModel or directly as mock data
+    @StateObject private var viewModel = PollsViewModel()
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 20) {
-                ForEach(polls) { poll in
-                    VStack(alignment: .leading) {
-                        Text("Created at: \(poll.formattedCreatedAt)")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-
-                        PollView(poll: poll, onVote: { optionId in
-                            print("Voted on option: \(optionId) in poll: \(poll.question)")
-                            // Handle the vote here, e.g., update the model or inform a ViewModel
-                        })
+        NavigationView {
+            ScrollView {
+                VStack(spacing: 20) {
+                    ForEach(viewModel.polls) { poll in
+                        PollView(viewModel: PollViewModel(poll: poll))
+                        .padding()
+                        .background(Color(.systemBackground))
+                        .cornerRadius(10)
+                        .shadow(radius: 5)
                     }
-                    .padding()
-                    .background(Color(.systemBackground))
-                    .cornerRadius(10)
-                    .shadow(radius: 5)
                 }
+                .padding()
             }
-            .padding()
+            .navigationTitle("Community Polls")
         }
     }
 }
 
+
 #Preview {
-    PollsView(polls: Poll.mockCommunityPolls)
+    PollsView()
 }

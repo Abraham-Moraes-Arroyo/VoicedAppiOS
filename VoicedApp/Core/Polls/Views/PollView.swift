@@ -8,48 +8,34 @@
 import SwiftUI
 
 struct PollView: View {
-    @State private var selectedOptionId: String? = nil
-    let poll: Poll
-    var onVote: ((String) -> Void)?
-
-    private var totalVotes: Int {
-        poll.options.reduce(0) { $0 + $1.voteCount }
-    }
-
-    private var pollHasExpired: Bool {
-        if let expiresAt = poll.expiresAt?.dateValue(), Date() > expiresAt {
-            return true
-        }
-        return false
-    }
+    @ObservedObject var viewModel: PollViewModel
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text(poll.question)
+            Text(viewModel.poll.question)
                 .font(.headline)
                 .padding(.bottom, 5)
 
-            if !pollHasExpired {
-                ForEach(poll.options) { option in
+            if !viewModel.pollHasExpired {
+                ForEach(viewModel.poll.options) { option in
                     Button(action: {
-                        guard !pollHasExpired else { return }
-                        self.selectedOptionId = option.id
-                        onVote?(option.id)
+                        // Call the vote function in the ViewModel
+                        viewModel.vote(for: option.id)
                     }) {
-                        OptionRow(option: option, isSelected: selectedOptionId == option.id)
+                        OptionRow(option: option, isSelected: viewModel.selectedOptionId == option.id)
                     }
-                    .disabled(pollHasExpired)
+                    .disabled(viewModel.pollHasExpired)
                 }
                 
-                Text("Expires: \(poll.expiresAt?.dateValue().formatted() ?? "N/A")")
+                Text("Expires: \(viewModel.expiresAtFormatted)")
                     .font(.footnote)
                     .padding(.top, 5)
                 
-                Text("Total votes: \(totalVotes)")
+                Text("Total votes: \(viewModel.totalVotes)")
                     .font(.footnote)
                     .padding(.top, 1)
             } else {
-                ForEach(poll.options) { option in
+                ForEach(viewModel.poll.options) { option in
                     OptionRow(option: option, showVotes: true)
                 }
             }
@@ -84,6 +70,15 @@ struct OptionRow: View {
     }
 }
 
-#Preview {
-    PollView(poll: Poll.mockCommunityPolls[0])
+// Dummy ViewModel for Preview
+class DummyPollViewModel: PollViewModel {
+    init() {
+        super.init(poll: Poll.mockCommunityPolls[0])
+    }
+}
+
+struct PollView_Previews: PreviewProvider {
+    static var previews: some View {
+        PollView(viewModel: DummyPollViewModel())
+    }
 }
