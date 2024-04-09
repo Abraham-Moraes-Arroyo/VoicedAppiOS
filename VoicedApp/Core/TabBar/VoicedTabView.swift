@@ -52,7 +52,7 @@ struct VoicedTabView: View {
                     
                 
         }
-        .tint(Color.black)
+        .tint(Color(red: 127/255, green: 202/255, blue: 166/255))
     }
 }
 

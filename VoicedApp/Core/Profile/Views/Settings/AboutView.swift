@@ -45,6 +45,8 @@ struct AboutView: View {
                 FeatureItemView(feature: "Spread the Word",
                                 description: "Amplify your voice within the New City community. Share what matters to you and encourage others to join the conversation.")
                 
+                FeatureItemView(feature: "Vist our webpage:", description: "https://voicedapp.wixsite.com/voiced-1")
+                
                 // Additional FeatureItemView can be added here for more features
                 
             }

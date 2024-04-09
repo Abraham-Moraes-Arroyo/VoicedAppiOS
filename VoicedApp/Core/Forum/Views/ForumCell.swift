@@ -55,9 +55,11 @@ struct ForumCell: View {
             HStack {
                 if let user = post.user {
                     CircularProfileImageView(user: user, size: .xSmall)
-                    Text(user.username)
+                    Text(post.user?.username.prefix(8) ?? "")
                         .font(.footnote)
                         .fontWeight(.semibold)
+                        .lineLimit(1)
+                        .truncationMode(.tail)
                     
                     Text(post.category.displayName)
                         .font(.footnote)
