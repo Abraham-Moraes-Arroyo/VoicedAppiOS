@@ -41,7 +41,9 @@ struct CommentReplyView: View {
                 VStack(alignment: .leading, spacing: 12) {
                     HStack(alignment: .top) {
                         VStack {
-                            CircularProfileImageView(user: post.user!, size: .small)
+                            if post.isUserGenerated {
+                                CircularProfileImageView(user: post.user!, size: .small)
+                            }
                             
                             Rectangle()
                                 .frame(width: 2, height: postReplyHeight)

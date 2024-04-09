@@ -14,7 +14,7 @@ class PostReplyViewModel: ObservableObject {
         let reply = PostReply(postId: post.id,
                               replyText: replyText,
                               postReplyOwnerUid: uid,
-                              postOwnerUid: post.ownerUid!,
+                              postOwnerUid: post.ownerUid ?? "",
                               timestamp: Timestamp()
         )
         
