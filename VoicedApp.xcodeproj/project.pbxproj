@@ -77,7 +77,14 @@
 		A71F19402BB812B800AE2EEC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71F193F2BB812B800AE2EEC /* ViewController.swift */; };
 		A71F19422BB812ED00AE2EEC /* WebViewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71F19412BB812ED00AE2EEC /* WebViewWrapper.swift */; };
 		A7542A992BC403AC008183CE /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7542A982BC403AC008183CE /* ToastView.swift */; };
+		A7542A9E2BC4D957008183CE /* Poll.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7542A9D2BC4D957008183CE /* Poll.swift */; };
+		A7542AA02BC4D976008183CE /* PollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7542A9F2BC4D976008183CE /* PollView.swift */; };
 		A765572D2BB9790C005977DE /* HTMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A765572C2BB9790C005977DE /* HTMLParser.swift */; };
+		A79977E12BC4E07F00BBA3C0 /* PollsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79977E02BC4E07F00BBA3C0 /* PollsView.swift */; };
+		A79977E92BC4E94800BBA3C0 /* PollViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79977E82BC4E94800BBA3C0 /* PollViewModel.swift */; };
+		A79977EB2BC4EAD900BBA3C0 /* PollsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79977EA2BC4EAD900BBA3C0 /* PollsViewModel.swift */; };
+		A79977ED2BC4EC7800BBA3C0 /* PollService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79977EC2BC4EC7800BBA3C0 /* PollService.swift */; };
+		A79977F42BC54A6900BBA3C0 /* CreatePollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79977F32BC54A6900BBA3C0 /* CreatePollView.swift */; };
 		A79E6D702BBB945000056382 /* CommentReplyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79E6D6F2BBB945000056382 /* CommentReplyView.swift */; };
 		A79E6D722BBB954300056382 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = A79E6D712BBB954300056382 /* Kingfisher */; };
 		A79E6D752BBBBA1E00056382 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = A79E6D742BBBBA1E00056382 /* String.swift */; };
@@ -197,7 +204,14 @@
 		A71F193F2BB812B800AE2EEC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		A71F19412BB812ED00AE2EEC /* WebViewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewWrapper.swift; sourceTree = "<group>"; };
 		A7542A982BC403AC008183CE /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
+		A7542A9D2BC4D957008183CE /* Poll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Poll.swift; sourceTree = "<group>"; };
+		A7542A9F2BC4D976008183CE /* PollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollView.swift; sourceTree = "<group>"; };
 		A765572C2BB9790C005977DE /* HTMLParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLParser.swift; sourceTree = "<group>"; };
+		A79977E02BC4E07F00BBA3C0 /* PollsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollsView.swift; sourceTree = "<group>"; };
+		A79977E82BC4E94800BBA3C0 /* PollViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollViewModel.swift; sourceTree = "<group>"; };
+		A79977EA2BC4EAD900BBA3C0 /* PollsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollsViewModel.swift; sourceTree = "<group>"; };
+		A79977EC2BC4EC7800BBA3C0 /* PollService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollService.swift; sourceTree = "<group>"; };
+		A79977F32BC54A6900BBA3C0 /* CreatePollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePollView.swift; sourceTree = "<group>"; };
 		A79E6D6F2BBB945000056382 /* CommentReplyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentReplyView.swift; sourceTree = "<group>"; };
 		A79E6D742BBBBA1E00056382 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		A79E6D792BBC198B00056382 /* PostReplyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReplyService.swift; sourceTree = "<group>"; };
@@ -383,6 +397,7 @@
 				8508C7FA2B9B7A6D00B2D0FD /* Location.swift */,
 				A7DFDE212BA162140077A1C4 /* User.swift */,
 				A7DFDE232BA162210077A1C4 /* Post.swift */,
+				A7542A9D2BC4D957008183CE /* Poll.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -479,6 +494,34 @@
 				A765572C2BB9790C005977DE /* HTMLParser.swift */,
 			);
 			path = SwiftSoup;
+			sourceTree = "<group>";
+		};
+		A7542A9C2BC4D77E008183CE /* Polls */ = {
+			isa = PBXGroup;
+			children = (
+				A79977E32BC4E21400BBA3C0 /* Models */,
+				A79977E22BC4E20C00BBA3C0 /* Views */,
+			);
+			path = Polls;
+			sourceTree = "<group>";
+		};
+		A79977E22BC4E20C00BBA3C0 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A79977E02BC4E07F00BBA3C0 /* PollsView.swift */,
+				A7542A9F2BC4D976008183CE /* PollView.swift */,
+				A79977F32BC54A6900BBA3C0 /* CreatePollView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A79977E32BC4E21400BBA3C0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A79977E82BC4E94800BBA3C0 /* PollViewModel.swift */,
+				A79977EA2BC4EAD900BBA3C0 /* PollsViewModel.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		A79E6D6C2BBB938300056382 /* Comments */ = {
@@ -591,6 +634,7 @@
 				A79E6D7F2BBE7C1E00056382 /* PostDetails */,
 				A7DFDDF72BA159740077A1C4 /* PostCreation */,
 				A7DFDDF62BA1596E0077A1C4 /* Profile */,
+				A7542A9C2BC4D77E008183CE /* Polls */,
 				A7DFDDF82BA159900077A1C4 /* Root */,
 				A7DFDDF92BA159970077A1C4 /* TabBar */,
 			);
@@ -603,6 +647,7 @@
 				A7DFDE372BABE4080077A1C4 /* UserService.swift */,
 				A7DFDE392BABE51D0077A1C4 /* SearchViewModel.swift */,
 				A7DFDE452BB1017E0077A1C4 /* PostService.swift */,
+				A79977EC2BC4EC7800BBA3C0 /* PollService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1001,6 +1046,7 @@
 				8508C7FE2B9B7CBF00B2D0FD /* LocationsDataService.swift in Sources */,
 				A79E6D902BBFFF1300056382 /* AuthenticationFormProtocol.swift in Sources */,
 				A7DFDE0E2BA160720077A1C4 /* PostCategory.swift in Sources */,
+				A7542AA02BC4D976008183CE /* PollView.swift in Sources */,
 				854D943E2BBE1F7C00117E09 /* SanitationCombined.swift in Sources */,
 				8570716D2BA8F57E0098ABD4 /* AppDelegate.swift in Sources */,
 				85984C832BA5C5D10033CF9E /* LocationMapAnnotionView.swift in Sources */,
@@ -1021,12 +1067,15 @@
 				A7DFDE242BA162210077A1C4 /* Post.swift in Sources */,
 				A79E6D8D2BBFFE9B00056382 /* AuthError.swift in Sources */,
 				854D941D2BBCDFE300117E09 /* DataPullJson.swift in Sources */,
+				A79977EB2BC4EAD900BBA3C0 /* PollsViewModel.swift in Sources */,
+				A79977ED2BC4EC7800BBA3C0 /* PollService.swift in Sources */,
 				8508C8062B9BEED600B2D0FD /* LocationPreviewView.swift in Sources */,
 				8508C8022B9B81B600B2D0FD /* LocationsViewModel.swift in Sources */,
 				A7DFDE2B2BAA8FF30077A1C4 /* AuthService.swift in Sources */,
 				8508C7CC2B9B72EE00B2D0FD /* ContentView.swift in Sources */,
 				8508C8002B9B7E9200B2D0FD /* LocationsView.swift in Sources */,
 				A79E6D832BBE7CA900056382 /* PostDetailsView.swift in Sources */,
+				A79977F42BC54A6900BBA3C0 /* CreatePollView.swift in Sources */,
 				A7DFDE442BB0F6460077A1C4 /* ForumViewModel.swift in Sources */,
 				854D94172BBCD58100117E09 /* datafromapi.swift in Sources */,
 				8508C7FB2B9B7A6D00B2D0FD /* Location.swift in Sources */,
@@ -1037,6 +1086,7 @@
 				A7DFDE1E2BA161660077A1C4 /* UserContentListView.swift in Sources */,
 				A71F19402BB812B800AE2EEC /* ViewController.swift in Sources */,
 				A79E6D7E2BBC1DF100056382 /* PostReplyViewModel.swift in Sources */,
+				A79977E92BC4E94800BBA3C0 /* PollViewModel.swift in Sources */,
 				A7DFDE492BB104FA0077A1C4 /* ProfileViewModel.swift in Sources */,
 				A79E6D952BC01EF700056382 /* SettingsOptions.swift in Sources */,
 				A79E6D852BBE7E5500056382 /* Timestamp.swift in Sources */,
@@ -1045,6 +1095,7 @@
 				A79E6D922BBFFF4F00056382 /* ForgotPasswordView.swift in Sources */,
 				A7DFDDFF2BA15DD30077A1C4 /* LoginView.swift in Sources */,
 				A79E6D702BBB945000056382 /* CommentReplyView.swift in Sources */,
+				A7542A9E2BC4D957008183CE /* Poll.swift in Sources */,
 				85984C812BA39B440033CF9E /* LocationDetailView.swift in Sources */,
 				A79E6D8B2BBFFBCA00056382 /* ForgotPasswordViewModel.swift in Sources */,
 				A79E6D972BC01F2800056382 /* PrivacyView.swift in Sources */,
@@ -1058,6 +1109,7 @@
 				A7542A992BC403AC008183CE /* ToastView.swift in Sources */,
 				A7DFDE182BA1612E0077A1C4 /* ProfileView.swift in Sources */,
 				A79E6D752BBBBA1E00056382 /* String.swift in Sources */,
+				A79977E12BC4E07F00BBA3C0 /* PollsView.swift in Sources */,
 				A7DFDE2F2BAA928C0077A1C4 /* ContentViewModel.swift in Sources */,
 				A7DFDE462BB1017E0077A1C4 /* PostService.swift in Sources */,
 				A7DFDE062BA15E160077A1C4 /* ForumCell.swift in Sources */,
