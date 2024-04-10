@@ -9,42 +9,24 @@ import Foundation
 import Firebase
 
 struct Poll: Identifiable, Codable {
-    var id: String // Make sure there's a unique identifier
-    var question: String
-    var options: [PollOption]
-    var createdAt: Timestamp
-    var expiresAt: Timestamp?
+    var id: String // A unique identifier for the poll.
+    var question: String // The question posed by the poll.
+    var options: [String] // An array of option texts.
+    var createdAt: Timestamp // When the poll was created.
+    var expiresAt: Timestamp? // Optional expiration time for the poll.
 
-    struct PollOption: Identifiable, Codable {
-        var id: String
-        var text: String
-        var voteCount: Int
-    }
-}
-
-
-extension Poll {
+    // Mock data for community polls without vote counts in options.
     static let mockCommunityPolls: [Poll] = [
         Poll(id: UUID().uuidString,
              question: "How satisfied are you with the current number/range of recreational activities available in our community?",
-             options: [
-                PollOption(id: UUID().uuidString, text: "Very Satisfied", voteCount: 5),
-                PollOption(id: UUID().uuidString, text: "Somewhat Satisfied", voteCount: 15),
-                PollOption(id: UUID().uuidString, text: "Neutral", voteCount: 8),
-                PollOption(id: UUID().uuidString, text: "Somewhat Dissatisfied", voteCount: 3),
-                PollOption(id: UUID().uuidString, text: "Very Dissatisfied", voteCount: 1)
-             ],
-             createdAt: Timestamp(date: Date()), // Adjusted to use the current date
-             expiresAt: Timestamp(date: Date().addingTimeInterval(86400 * 7))), // Expires in one week, adjusted to use Date()
+             options: ["Very Satisfied", "Somewhat Satisfied", "Neutral", "Somewhat Dissatisfied", "Very Dissatisfied"],
+             createdAt: Timestamp(date: Date()), // Use the current date
+             expiresAt: Timestamp(date: Date().addingTimeInterval(86400 * 7))), // Expires in one week
         Poll(id: UUID().uuidString,
              question: "Do you feel well-informed about local government decisions and policies that directly impact the community?",
-             options: [
-                PollOption(id: UUID().uuidString, text: "Yes", voteCount: 18),
-                PollOption(id: UUID().uuidString, text: "Somewhat", voteCount: 10),
-                PollOption(id: UUID().uuidString, text: "No", voteCount: 4)
-             ],
-             createdAt: Timestamp(date: Date()), // Using current date
-             expiresAt: Timestamp(date: Date().addingTimeInterval(86400 * 7))) // Expires in one week, using Date()
+             options: ["Yes", "Somewhat", "No"],
+             createdAt: Timestamp(date: Date()), // Use the current date
+             expiresAt: Timestamp(date: Date().addingTimeInterval(86400 * 7))) // Expires in one week
     ]
 }
 
@@ -55,6 +37,4 @@ extension Poll {
         formatter.timeStyle = .none
         return formatter.string(from: createdAt.dateValue())
     }
-    
-    
 }

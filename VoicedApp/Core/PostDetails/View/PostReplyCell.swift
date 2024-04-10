@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PostReplyCell: View {
     let reply: PostReply
+    @State private var showReportPopup = false
     
     @State var postReplyHeight: CGFloat = 24
     
@@ -49,11 +50,17 @@ struct PostReplyCell: View {
                         .font(.caption)
                         .foregroundColor(Color(.systemGray3))
                     Button(action: {
-                        // Action for button
-                    }, label: {
-                        Image(systemName: "ellipsis")
-                            .foregroundStyle(Color(.darkGray))
-                    })
+                        showReportPopup = true // Present the report popup
+                    }) {
+                        Label("", systemImage: "flag")
+                            .padding()
+                            
+                            .background(Color.white)
+                            .clipShape(Capsule())
+                    }
+                    .sheet(isPresented: $showReportPopup) {
+                        ReportPopupView(isPresented: $showReportPopup)
+                    }
                 }
             }
             .onAppear { setCommentViewHeight() }

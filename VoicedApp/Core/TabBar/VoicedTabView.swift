@@ -33,7 +33,7 @@ struct VoicedTabView: View {
             
             
 //            CreatePollView()
-            PollsView()
+            HighlightsView()
                         .tabItem {
                             Image(systemName: selectedTab == 2 ? "chart.bar" : "chart.bar.fill")
                                 .environment(\.symbolVariants, selectedTab == 2 ? .fill : .none)
