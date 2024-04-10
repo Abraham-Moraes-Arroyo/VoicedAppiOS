@@ -60,7 +60,7 @@ struct ForumView: View {
                             })
                         }
                     } label: {
-                        Image(systemName: "ellipsis")
+                        Image(systemName: "line.3.horizontal.decrease.circle.fill")
                     }
                 }
             }

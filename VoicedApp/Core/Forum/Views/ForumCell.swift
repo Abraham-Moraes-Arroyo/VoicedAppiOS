@@ -18,6 +18,7 @@ struct ForumCell: View {
     @State private var showReportSheet = false
     @State private var reportReason = "" // To store user input
        @State private var showingReportSheet = false
+    @State private var showReportPopup = false
     
     @State private var showingBlockSheet = false
     
@@ -84,7 +85,7 @@ struct ForumCell: View {
                 Spacer()
                 // Post verification status
                 if !post.isUserGenerated {
-                    Label("Verified", systemImage: "checkmark.seal.fill")
+                    Label("News", systemImage: "checkmark.seal.fill")
                         .padding(5)
                         .background(Color.green.opacity(0.1)) // Semi-transparent background
                         .clipShape(RoundedRectangle(cornerRadius: 10))
@@ -96,12 +97,7 @@ struct ForumCell: View {
                         .font(.caption)
                         .foregroundColor(Color(.systemGray3))
                         
-                    Button(action: {
-                        
-                    }, label: {
-                        Image(systemName:  "ellipsis")
-                            .foregroundStyle(Color(.darkGray))
-                    })
+                    
                     .padding(.trailing, 10)
                     
                 }
@@ -139,7 +135,12 @@ struct ForumCell: View {
                 }
                 .padding(.leading)
                 .padding(.bottom, 4)
-                actionButtons
+                HStack {
+                    actionButtons
+                    
+                    
+                }
+                
             }
             .padding(.bottom, 8)
             
@@ -241,6 +242,21 @@ struct ForumCell: View {
                     ])
                 }
             }
+            
+            if !post.isUserGenerated {
+                            Button(action: {
+                                showReportPopup = true // Present the report popup
+                            }) {
+                                Label("", systemImage: "flag")
+                                    .padding()
+                                    
+                                    .background(Color.white)
+                                    .clipShape(Capsule())
+                            }
+                            .sheet(isPresented: $showReportPopup) {
+                                ReportPopupView(isPresented: $showReportPopup)
+                            }
+                        }
                        
             
             Spacer()
