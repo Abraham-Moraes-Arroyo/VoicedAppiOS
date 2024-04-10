@@ -356,9 +356,11 @@ struct HighlightsView: View { // make sure that this is differnet
                     VStack{
                         Text("Pothole Reports completed")
                         var denom = (viewModel.alleyOpenComplaintPot.count + viewModel.openComplaintPot.count )
-                        var averageSan = (viewModel.alleyClosedComplaintPot.count + viewModel.closedComplaintPot.count) % 100
-                        Text("\(averageSan) %")
-                        Text("Includes: Graffiti, Street Cleanups ")
+                        var averagePot = (viewModel.alleyClosedComplaintPot.count + viewModel.closedComplaintPot.count) % 100
+                        
+//                        var comb = averageSan / denom
+                        Text("\(averagePot) %")
+                        Text("Includes: Potholes in New City ")
                             .foregroundColor(.gray)
                             .font(.subheadline)
                         // what if for the math percentage I get the to do it inside of the text on line 360
@@ -369,7 +371,7 @@ struct HighlightsView: View { // make sure that this is differnet
                         Text("Sanitation Reports completed")
                         var averageSanO = (viewModel.openComplaints.count + viewModel.completedComplaints.count) % 100
                         Text("\(averageSanO) %")
-                        Text("Includes: Potholes in New City ")
+                        Text("Includes: Graffiti, Street Cleanups ")
                             .foregroundColor(.gray)
                             .font(.subheadline)
                     }
