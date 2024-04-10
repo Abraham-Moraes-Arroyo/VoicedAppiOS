@@ -13,39 +13,62 @@ struct PollService {
     
     // Fetch all polls
     static func fetchPolls() async throws -> [Poll] {
-        let snapshot = try await pollsCollection.getDocuments()
-        return try snapshot.documents.compactMap { try $0.data(as: Poll.self) }
-    }
-
-    // Submit a vote for a poll option
-    static func vote(for pollId: String, optionId: String) async throws {
-        // Increment the voteCount for the specified option in the poll
-        let optionPath = "options.\(optionId).voteCount"  // Adjust based on your data structure
-        let increment = FieldValue.increment(Int64(1))
-        try await pollsCollection.document(pollId).updateData([optionPath: increment])
+        let snapshot = try await Firestore.firestore().collection("polls").getDocuments()
+        let polls = try snapshot.documents.map { document -> Poll in
+            var poll = try document.data(as: Poll.self)
+            poll.id = document.documentID // Ensuring the poll's ID is set
+            return poll
+        }
+        return polls
     }
     
-    static func createPoll(_ poll: Poll) async throws {
+    
+    // Submit a vote for a poll option
+    static func vote(for pollId: String, optionId: String) async throws {
+        let db = Firestore.firestore()
+        let pollRef = db.collection("polls").document(pollId)
+        
+        try await db.runTransaction { transaction, errorPointer in
+            let pollDocument: DocumentSnapshot
             do {
+                try pollDocument = transaction.getDocument(pollRef)
+            } catch let fetchError as NSError {
+                errorPointer?.pointee = fetchError
+                return nil
+            }
+            
+            guard var options = pollDocument.data()?["options"] as? [[String: Any]] else {
+                return nil
+            }
+            
+            // Find the option index
+            if let optionIndex = options.firstIndex(where: { $0["id"] as? String == optionId }) {
+                // Increment the voteCount
+                var option = options[optionIndex]
+                option["voteCount"] = ((option["voteCount"] as? Int) ?? 0) + 1
+                options[optionIndex] = option
                 
-                try await pollsCollection.document(poll.id).setData(from: poll)
-            } catch {
-                // Handle or throw error
+                // Update the document
+                transaction.updateData(["options": options], forDocument: pollRef)
+            } else {
+                // Option not found, handle error
+            }
+            
+            return nil
+        }
+    }
+
+    
+    static func createPoll(_ poll: Poll) async throws {
+            let db = Firestore.firestore()
+            let pollRef = db.collection("polls").document(poll.id)
+            do {
+                // Convert Poll object to dictionary or directly use Firestore Codable support
+                try pollRef.setData(from: poll)
+            } catch let error {
                 throw error
             }
         }
-    
-    // Fetch polls filtered by month and year
-//    static func fetchPollsFiltered(byMonth month: Int, year: Int) async throws -> [Poll] {
-//        let startOfPeriod = DateComponents(year: year, month: month).date!
-//        let endOfPeriod = Calendar.current.date(byAdding: .month, value: 1, to: startOfPeriod)!
-//        
-//        let snapshot = try await pollsCollection
-//            .whereField("createdAt", isGreaterThanOrEqualTo: startOfPeriod)
-//            .whereField("createdAt", isLessThan: endOfPeriod)
-//            .getDocuments()
-//        
-//        return try snapshot.documents.compactMap { try $0.data(as: Poll.self) }
-//    }
 }
+
 

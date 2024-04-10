@@ -89,7 +89,21 @@ struct ForumCell: View {
                         .background(Color.green.opacity(0.1)) // Semi-transparent background
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                         .foregroundColor(.green)
-                        .padding(.trailing, 10)
+                        
+                    
+                    
+                    Text(post.timestamp.timestampString())
+                        .font(.caption)
+                        .foregroundColor(Color(.systemGray3))
+                        
+                    Button(action: {
+                        
+                    }, label: {
+                        Image(systemName:  "ellipsis")
+                            .foregroundStyle(Color(.darkGray))
+                    })
+                    .padding(.trailing, 10)
+                    
                 }
             }
             .padding(.leading)

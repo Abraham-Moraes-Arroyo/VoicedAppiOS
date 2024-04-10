@@ -9,18 +9,19 @@ import Foundation
 import Firebase
 
 struct Poll: Identifiable, Codable {
-    let id: String
-    let question: String
+    var id: String // Make sure there's a unique identifier
+    var question: String
     var options: [PollOption]
-    let createdAt: Timestamp
-    let expiresAt: Timestamp?
-    
+    var createdAt: Timestamp
+    var expiresAt: Timestamp?
+
     struct PollOption: Identifiable, Codable {
-        let id: String
-        let text: String
+        var id: String
+        var text: String
         var voteCount: Int
     }
 }
+
 
 extension Poll {
     static let mockCommunityPolls: [Poll] = [

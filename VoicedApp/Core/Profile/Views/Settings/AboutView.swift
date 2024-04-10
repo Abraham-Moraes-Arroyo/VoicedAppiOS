@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AboutView: View {
+    @Environment(\.openURL) var openURL
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
@@ -45,9 +46,21 @@ struct AboutView: View {
                 FeatureItemView(feature: "Spread the Word",
                                 description: "Amplify your voice within the New City community. Share what matters to you and encourage others to join the conversation.")
                 
-                FeatureItemView(feature: "Vist our webpage:", description: "https://voicedapp.wixsite.com/voiced-1")
+
+                Text("Visit our webpage:")
+                    .font(.headline)
+                    .padding(.leading, 15)
                 
-                // Additional FeatureItemView can be added here for more features
+                Button("https://voicedapp.wixsite.com/voiced-1") {
+                                    // Safely unwrap the URL and attempt to open it
+                                    if let url = URL(string: "https://voicedapp.wixsite.com/voiced-1") {
+                                        openURL(url)
+                                    }
+                                }
+                                .foregroundColor(.blue)
+                                .font(.body)
+                                .padding(.leading, 15)
+                
                 
             }
             .padding()
