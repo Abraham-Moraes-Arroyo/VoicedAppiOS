@@ -74,6 +74,12 @@ class SanitationStatusCompleteShown: ObservableObject {
     @Published var openComplaintPot: [PotholeComplaint] = []
     @Published var closedComplaintPot: [PotholeComplaint] = []
     
+    // Below is for the ALLEY potholes
+    @Published var alleyOpenComplaintPot: [PotholeComplaint] = []
+    @Published var alleyClosedComplaintPot: [PotholeComplaint] = []
+
+    
+//    closedComplaintPot
     
 //    get complaints
     func getComplaints() {
@@ -82,7 +88,79 @@ class SanitationStatusCompleteShown: ObservableObject {
         
         getOpenComplaintsCallPot()
         getClosedComplaintsCallPot()
+        
+        
+        getOpenComplaintsCallPotAlley()
+        getClosedComplaintsCallPotAlley()
     }
+    
+    //first getOpenComplaintsCallPot complaint Closed
+    func getClosedComplaintsCallPotAlley() {
+        let urlString = "https://data.cityofchicago.org/resource/v6vf-nfxy.json?sr_type=Pothole%20in%20Street%20Complaint&&community_area=61&&status=Open"
+        guard let url = URL(string: urlString) else {
+            print("Invalid URL")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            if let data = data {
+                do {
+                    let decodedResponse = try JSONDecoder().decode([PotholeComplaint].self, from: data)
+                    DispatchQueue.main.async {
+                        self?.alleyClosedComplaintPot = decodedResponse
+                    }
+                    // Print each complaint's details to the console for debugging.
+                    for complaint in decodedResponse {
+                        print("SR Number: \(complaint.srNumber), SR Type: \(complaint.srType), Status: \(complaint.status)")
+                    }
+                } catch {
+                    DispatchQueue.main.async {
+                        print("Decoding failed: \(error.localizedDescription)")
+                    }
+                }
+            } else if let error = error {
+                DispatchQueue.main.async {
+                    print("Fetch failed: \(error.localizedDescription)")
+                }
+            }
+        }.resume()
+    }
+    
+    
+    
+    //first getOpenComplaintsCallPot complaint OPEN
+    func getOpenComplaintsCallPotAlley() {
+        let urlString = "https://data.cityofchicago.org/resource/v6vf-nfxy.json?sr_type=Pothole%20in%20Street%20Complaint&&community_area=61&&status=Open"
+        guard let url = URL(string: urlString) else {
+            print("Invalid URL")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            if let data = data {
+                do {
+                    let decodedResponse = try JSONDecoder().decode([PotholeComplaint].self, from: data)
+                    DispatchQueue.main.async {
+                        self?.alleyOpenComplaintPot = decodedResponse
+                    }
+                    // Print each complaint's details to the console for debugging.
+                    for complaint in decodedResponse {
+                        print("SR Number: \(complaint.srNumber), SR Type: \(complaint.srType), Status: \(complaint.status)")
+                    }
+                } catch {
+                    DispatchQueue.main.async {
+                        print("Decoding failed: \(error.localizedDescription)")
+                    }
+                }
+            } else if let error = error {
+                DispatchQueue.main.async {
+                    print("Fetch failed: \(error.localizedDescription)")
+                }
+            }
+        }.resume()
+    }
+    
+    
     
     //first pothole complaint OPEN
     func getOpenComplaintsCallPot() {
@@ -246,11 +324,16 @@ struct HighlightsView: View { // make sure that this is differnet
                     BarMark(x:.value("type", "Closed Sanitation calls"),
                             y:.value("Completed Issues", viewModel.completedComplaints.count))
                      
+                    
+                    // Below is where I combined both alley and street potholes
+                    
                     BarMark(x:.value("type", "Closed Pothole calls"),
-                            y:.value("Closed Issues", viewModel.closedComplaintPot.count))
+                            y:.value("Closed Issues", viewModel.closedComplaintPot.count +  viewModel.alleyClosedComplaintPot.count))
+                    
+                    //alleyOpenComplaintPot
                     
                     BarMark(x:.value("type", "Open Pothole calls"),
-                            y:.value("Open Issues", viewModel.openComplaintPot.count))
+                            y:.value("Open Issues", viewModel.openComplaintPot.count + viewModel.alleyOpenComplaintPot.count))
                 
                 }
                 .aspectRatio(1, contentMode: .fit)
@@ -267,9 +350,12 @@ struct HighlightsView: View { // make sure that this is differnet
                         .fill(Color.blue)
                         .frame(width: 300, height: 100)
                 }
+//                     @Published var alleyOpenComplaintPot: [PotholeComplaint] = []
+//                    @Published var alleyClosedComplaintPot: [PotholeComplaint] = []
+
                     VStack{
-                        Text("Sanitation Reports completed")
-                        var averageSan = (viewModel.openComplaintPot.count + viewModel.closedComplaintPot.count) % 100
+                        Text("Pothole Reports completed")
+                        var averageSan = (viewModel.alleyClosedComplaintPot.count + viewModel.closedComplaintPot.count) % (viewModel.alleyOpenComplaintPot.count + viewModel.openComplaintPot.count )
                         Text("\(averageSan) %")
                         Text("Includes: Graffiti, Street Cleanups ")
                             .foregroundColor(.gray)
