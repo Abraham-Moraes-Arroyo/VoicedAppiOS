@@ -28,8 +28,6 @@ class PollViewModel: ObservableObject {
        
     
     var pollHasExpired: Bool {
-            // Your logic to determine if the poll has expired.
-            // For example:
             if let expiresAt = poll.expiresAt?.dateValue(), Date() > expiresAt {
                 return true
             }
@@ -44,22 +42,31 @@ class PollViewModel: ObservableObject {
     
     func vote(for optionID: String) {
         guard let userID = Auth.auth().currentUser?.uid else { return }
-        // Find the option and optimistically increment the vote count
-        if let index = poll.options.firstIndex(where: { $0.id == optionID }) {
-            poll.options[index].voteCount += 1
-            objectWillChange.send() // Notify observers of the change
-        }
 
+        // Reference to the user's vote document to prevent double voting
         let voteRef = db.collection("polls").document(poll.id).collection("votes").document(userID)
+
+        // Attempt to set the user's vote
         voteRef.setData(["optionID": optionID, "timestamp": FieldValue.serverTimestamp()]) { [weak self] error in
             if let error = error {
                 print("Error voting: \(error.localizedDescription)")
-                // Optionally, revert the optimistic UI update here
             } else {
-                self?.refreshPoll() // Refresh the poll to get the latest data
+                // Successfully voted, now increment the vote count atomically
+                let optionVoteCountRef: Void? = self?.db.collection("polls").document(self?.poll.id ?? "").updateData([
+                    "options.\(optionID).voteCount": FieldValue.increment(Int64(1))
+                ]) { error in
+                    if let error = error {
+                        print("Error incrementing vote count: \(error.localizedDescription)")
+                        // Optionally handle reverting the optimistic local UI update
+                    } else {
+                        // Successfully incremented vote count
+                        self?.refreshPoll() // Consider refreshing the poll to reflect the updated count
+                    }
+                }
             }
         }
     }
+
 
 
     private func refreshPoll() {
