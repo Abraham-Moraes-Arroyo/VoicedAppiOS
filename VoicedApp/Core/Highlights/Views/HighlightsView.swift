@@ -355,11 +355,13 @@ struct HighlightsView: View { // make sure that this is differnet
 
                     VStack{
                         Text("Pothole Reports completed")
-                        var averageSan = (viewModel.alleyClosedComplaintPot.count + viewModel.closedComplaintPot.count) % (viewModel.alleyOpenComplaintPot.count + viewModel.openComplaintPot.count )
+                        var denom = (viewModel.alleyOpenComplaintPot.count + viewModel.openComplaintPot.count )
+                        var averageSan = (viewModel.alleyClosedComplaintPot.count + viewModel.closedComplaintPot.count) % 100
                         Text("\(averageSan) %")
                         Text("Includes: Graffiti, Street Cleanups ")
                             .foregroundColor(.gray)
                             .font(.subheadline)
+                        // what if for the math percentage I get the to do it inside of the text on line 360
                     }
                     .offset(y:-200)
                     
