@@ -226,9 +226,9 @@ class SanitationStatusCompleteShown: ObservableObject {
         }.resume()
     }
     
-    // first function
+    // first function OPEN STREEET LIGHT
     func getOpenComplaintsCall() {
-        let urlString = "https://data.cityofchicago.org/resource/v6vf-nfxy.json?sr_type=Sanitation%20Code%20Violation&&community_area=61&&status=Open"
+        let urlString = "hhttps://data.cityofchicago.org/resource/v6vf-nfxy.json?sr_type=Street%20Light%20Out%20Complaint&&community_area=61&&status=Open"
         guard let url = URL(string: urlString) else {
             print("Invalid URL")
             return
@@ -259,9 +259,9 @@ class SanitationStatusCompleteShown: ObservableObject {
     }
     
     
-    //Clossed state function
+    //Clossed state function for Street
     func getCompletedPotholeState() {
-        let urlString = "https://data.cityofchicago.org/resource/v6vf-nfxy.json?sr_type=Sanitation%20Code%20Violation&&community_area=61&&status=Completed"
+        let urlString = "https://data.cityofchicago.org/resource/v6vf-nfxy.json?sr_type=Street%20Light%20Out%20Complaint&&community_area=61&&status=Completed"
         guard let url = URL(string: urlString) else {
             print("Invalid URL")
             return
@@ -318,10 +318,10 @@ struct HighlightsView: View { // make sure that this is differnet
                 }
                 .offset(y: 70.0)
                 Chart{
-                    BarMark(x:.value("type", "Open Sanitation calls"),
+                    BarMark(x:.value("type", "Open Light Reports calls"),
                             y:.value("Open Issues", viewModel.openComplaints.count))
                     
-                    BarMark(x:.value("type", "Closed Sanitation calls"),
+                    BarMark(x:.value("type", "Closed Light Reports calls"),
                             y:.value("Completed Issues", viewModel.completedComplaints.count))
                      
                     
@@ -331,7 +331,7 @@ struct HighlightsView: View { // make sure that this is differnet
                             y:.value("Closed Issues", viewModel.closedComplaintPot.count +  viewModel.alleyClosedComplaintPot.count))
                     
                     //alleyOpenComplaintPot
-                    
+//                    247
                     BarMark(x:.value("type", "Open Pothole calls"),
                             y:.value("Open Issues", viewModel.openComplaintPot.count + viewModel.alleyOpenComplaintPot.count))
                 
@@ -342,12 +342,12 @@ struct HighlightsView: View { // make sure that this is differnet
 
                 VStack{
                     RoundedRectangle(cornerRadius: 4.0)
-                        .fill(Color.green)
+                        .fill(Color(red: 185/255, green: 224/255, blue: 202/255))
                         .frame(width: 300, height: 100)
                 }
                 VStack{
                     RoundedRectangle(cornerRadius: 4.0)
-                        .fill(Color.blue)
+                        .fill(Color(red: 98/255, green: 204/255, blue: 162/255))
                         .frame(width: 300, height: 100)
                 }
 //                     @Published var alleyOpenComplaintPot: [PotholeComplaint] = []
@@ -368,12 +368,14 @@ struct HighlightsView: View { // make sure that this is differnet
                     .offset(y:-200)
                     
                     VStack{
-                        Text("Sanitation Reports completed")
+                        Text("Street Light Reports completed")
                         var averageSanO = (viewModel.openComplaints.count + viewModel.completedComplaints.count) % 100
                         Text("\(averageSanO) %")
-                        Text("Includes: Graffiti, Street Cleanups ")
+                        Text("Includes: Street light Outages ")
                             .foregroundColor(.gray)
                             .font(.subheadline)
+                        
+                        
                     }
                     .offset(y:-155)
                 }
