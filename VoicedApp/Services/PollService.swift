@@ -8,6 +8,7 @@
 import Firebase
 
 struct PollService {
+    static let db = Firestore.firestore()
     
     private static let pollsCollection = Firestore.firestore().collection("polls")
     
@@ -23,40 +24,60 @@ struct PollService {
     }
     
     
-    // Submit a vote for a poll option
-    static func vote(for pollId: String, optionId: String) async throws {
-        let db = Firestore.firestore()
+    static func vote(for pollId: String, optionId: String, userId: String) async throws {
         let pollRef = db.collection("polls").document(pollId)
+        let userVoteRef = pollRef.collection("votes").document(userId)
         
-        try await db.runTransaction { transaction, errorPointer in
-            let pollDocument: DocumentSnapshot
-            do {
-                try pollDocument = transaction.getDocument(pollRef)
-            } catch let fetchError as NSError {
-                errorPointer?.pointee = fetchError
-                return nil
-            }
-            
-            guard var options = pollDocument.data()?["options"] as? [[String: Any]] else {
-                return nil
-            }
-            
-            // Find the option index
-            if let optionIndex = options.firstIndex(where: { $0["id"] as? String == optionId }) {
-                // Increment the voteCount
-                var option = options[optionIndex]
-                option["voteCount"] = ((option["voteCount"] as? Int) ?? 0) + 1
-                options[optionIndex] = option
+        do {
+            try await db.runTransaction({ (transaction, errorPointer) -> Any? in
+                let pollDocument: DocumentSnapshot
+                do {
+                    pollDocument = try transaction.getDocument(pollRef)
+                } catch let fetchError as NSError {
+                    // Properly assign the caught error to errorPointer
+                    errorPointer?.pointee = fetchError
+                    return nil
+                }
                 
-                // Update the document
+                var options = pollDocument.data()?["options"] as? [[String: Any]] ?? []
+                let userVoteDocument = try? transaction.getDocument(userVoteRef)
+                let previousOptionId = userVoteDocument?.data()?["optionId"] as? String
+                
+                if let prevOptionId = previousOptionId, prevOptionId != optionId {
+                    // Decrement vote count for the previous option
+                    if let index = options.firstIndex(where: { $0["id"] as? String == prevOptionId }) {
+                        var option = options[index]
+                        option["voteCount"] = ((option["voteCount"] as? Int) ?? 1) - 1
+                        options[index] = option
+                    }
+                }
+                
+                // Increment vote count for the new option
+                if let index = options.firstIndex(where: { $0["id"] as? String == optionId }) {
+                    var option = options[index]
+                    option["voteCount"] = ((option["voteCount"] as? Int) ?? 0) + 1
+                    options[index] = option
+                } else {
+                    // If the optionId does not exist in the options array, handle the error
+                    let error = NSError(domain: "AppError", code: 100, userInfo: [NSLocalizedDescriptionKey: "Option does not exist."])
+                    errorPointer?.pointee = error
+                    return nil
+                }
+
+                // Update the poll with the adjusted option counts
                 transaction.updateData(["options": options], forDocument: pollRef)
-            } else {
-                // Option not found, handle error
-            }
-            
-            return nil
+
+                // Always update/set the user's vote
+                transaction.setData(["optionId": optionId], forDocument: userVoteRef)
+
+                return nil
+            })
+        } catch let transactionError as NSError {
+            // Handle the transaction error
+            throw transactionError
         }
     }
+
 
     
     static func createPoll(_ poll: Poll) async throws {
