@@ -30,6 +30,7 @@ enum DiscoveryMethod: String, CaseIterable, Identifiable, Codable {
     case socialMedia = "Social Media"
     case friendFamily = "Friend or Family"
     case advertisement = "Flyer"
+    case none = "None"
     
     var id: String { self.rawValue }
 }
