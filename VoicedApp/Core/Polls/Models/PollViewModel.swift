@@ -11,7 +11,7 @@ import FirebaseAuth
 
 class PollViewModel: ObservableObject {
     @Published var poll: Poll
-    @Published var selectedOptionId: String? = nil
+    @Published var selectedOption: String? = nil // Updated for clarity
     @Published var voteCounts: [String: Int] = [:] // To hold vote counts for each option
     private let db = Firestore.firestore()
 
@@ -39,24 +39,34 @@ class PollViewModel: ObservableObject {
     func countVotesForPoll() {
         Task {
             for option in poll.options {
-                let count = try await PollService.countVotes(for: poll.id, optionId: option)
-                DispatchQueue.main.async {
-                    self.voteCounts[option] = count
+                do {
+                    let count = try await PollService.countVotes(for: poll.id, optionText: option)
+                    DispatchQueue.main.async {
+                        self.objectWillChange.send()
+                        self.voteCounts[option] = count
+                        print(self.voteCounts)
+                    }
+                } catch let error {
+                    print("Error counting votes for option \(option): \(error.localizedDescription)")
                 }
             }
         }
     }
-    
-    func vote(for optionID: String) {
-        guard let userID = Auth.auth().currentUser?.uid else { return }
 
+    
+    func vote(for optionText: String) {
+        guard let userID = Auth.auth().currentUser?.uid else { return }
         let voteRef = db.collection("polls").document(poll.id).collection("votes").document(userID)
 
         Task {
             do {
-                try await voteRef.setData(["optionID": optionID, "timestamp": FieldValue.serverTimestamp()])
+                try await voteRef.setData(["optionText": optionText, "timestamp": FieldValue.serverTimestamp()])
                 // After a successful vote, refresh the votes for the poll
-                self.countVotesForPoll()
+                DispatchQueue.main.async {
+                               self.selectedOption = optionText // Update the selected option
+                               self.countVotesForPoll() // Refresh the votes count
+                           }
+               
             } catch let error {
                 print("Error voting: \(error.localizedDescription)")
             }

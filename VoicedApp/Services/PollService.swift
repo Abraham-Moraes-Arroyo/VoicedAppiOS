@@ -29,10 +29,9 @@ struct PollService {
     }
     
     // Count votes for a specific poll option
-    static func countVotes(for pollId: String, optionId: String) async throws -> Int {
+    static func countVotes(for pollId: String, optionText: String) async throws -> Int {
         let votesRef = db.collection("polls").document(pollId).collection("votes")
-        // Use a completion handler with getDocuments
-        let querySnapshot = try await votesRef.whereField("optionID", isEqualTo: optionId).getDocuments()
+        let querySnapshot = try await votesRef.whereField("optionText", isEqualTo: optionText).getDocuments()
         return querySnapshot.documents.count
     }
 
