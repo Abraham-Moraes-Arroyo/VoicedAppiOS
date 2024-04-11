@@ -39,7 +39,7 @@ struct PrivacyView: View {
                 
                 Button("Privacy Policy") {
                                     // Safely unwrap the URL and attempt to open it
-                                    if let url = URL(string: "https://voicedapp.wixsite.com/voiced-1") {
+                                    if let url = URL(string: "https://www.eccchicago.org/eula.html") {
                                         openURL(url)
                                     }
                                 }
