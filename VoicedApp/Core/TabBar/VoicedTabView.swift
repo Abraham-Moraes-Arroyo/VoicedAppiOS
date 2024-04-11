@@ -31,7 +31,7 @@ struct VoicedTabView: View {
                         .tag(1)
             
             
-            
+//            PollsView()
 //            CreatePollView()
             HighlightsView()
                         .tabItem {
@@ -41,13 +41,23 @@ struct VoicedTabView: View {
                         .onAppear { selectedTab = 2 }
                         .tag(2)
             
+            PollsView()
+                        .tabItem {
+                            Image(systemName: selectedTab == 3 ? "list.bullet.clipboard" : "list.bullet.clipboard.fill")
+                                .environment(\.symbolVariants, selectedTab == 3 ? .fill : .none)
+                        }
+                        .onAppear { selectedTab = 3 }
+                        .tag(3)
+            
+
+            
             CurrentUserProfileView(user: user)
                 .tabItem {
-                    Image(systemName: selectedTab == 3 ? "person" : "person.fill")
-                        .environment(\.symbolVariants, selectedTab == 3 ? .fill : .none)
+                    Image(systemName: selectedTab == 4 ? "person" : "person.fill")
+                        .environment(\.symbolVariants, selectedTab == 4 ? .fill : .none)
                 }
-                .onAppear { selectedTab = 3 }
-                .tag(3)
+                .onAppear { selectedTab = 4 }
+                .tag(4)
             
                     
                 

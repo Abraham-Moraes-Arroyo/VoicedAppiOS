@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct PrivacyView: View {
+    @Environment(\.openURL) var openURL
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
@@ -33,6 +34,19 @@ struct PrivacyView: View {
                 Text("Voiced may require access to your device's location, camera, and contacts to provide certain features. You can manage these permissions in your device settings.")
                     .font(.body)
                 
+                Text("To read full Privacy Policy")
+                    .font(.headline)
+                
+                Button("Privacy Policy") {
+                                    // Safely unwrap the URL and attempt to open it
+                                    if let url = URL(string: "https://www.eccchicago.org/eula.html") {
+                                        openURL(url)
+                                    }
+                                }
+                                .foregroundColor(.blue)
+                                .font(.body)
+                                .padding(.leading, 15)
+                
                 
                 Text("Contact Us")
                     .font(.headline)
@@ -46,7 +60,7 @@ struct PrivacyView: View {
                             UIApplication.shared.open(url)
                         }
                 }) {
-                    Text("joannarodriguez134@gmail.com")
+                    Text("eccinchicago@gmail.com")
                         .font(.body)
                         .foregroundColor(.blue)
                         .padding(.horizontal, 10) // Add padding inside the rounded rectangle

@@ -11,6 +11,10 @@ struct RegistrationView: View {
     
     @StateObject var viewModel = RegistrationViewModel()
     
+    @State private var hasAgreedToPrivacyPolicy = false // Track privacy policy agreement
+        
+        @Environment(\.openURL) var openURL // Environment value to open URL
+    
     var body: some View {
         ScrollView {
             Text("Create an account")
@@ -88,8 +92,10 @@ struct RegistrationView: View {
                         HStack {
                             Text(issue.rawValue)
                             if viewModel.isCommunityIssueSelected(issue) {
-                                Image(systemName: "checkmark")
-                            }
+                                Image(systemName: "checkmark.square.fill") // Checked
+                                                       } else {
+                                                           Image(systemName: "square") // Unchecked
+                                                       }
                         }
                     }
                     .buttonStyle(BorderlessButtonStyle())
@@ -105,28 +111,61 @@ struct RegistrationView: View {
                         HStack {
                             Text(method.rawValue)
                             if viewModel.isDiscoveryMethodSelected(method) {
-                                Image(systemName: "checkmark")
-                            }
+                                Image(systemName: "checkmark.square.fill") // Checked
+                                                       } else {
+                                                           Image(systemName: "square") // Unchecked
+                                                       }
                         }
                     }
                     .buttonStyle(BorderlessButtonStyle())
                 }
 
-                Button(action: {
-                    Task {
-                        try await viewModel.createUser()
-                    }
-                }) {
-                    Text("Sign Up")
-                        .foregroundColor(.white)
-                        .fontWeight(.semibold)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.blue)
-                        .cornerRadius(10)
-                }
-                .disabled(!formIsValid)
-                .opacity(formIsValid ? 1 : 0.7)
+                // Privacy Policy Agreement Section
+                           HStack {
+                               Button(action: {
+                                   self.hasAgreedToPrivacyPolicy.toggle() // Toggle the agreement state
+                               }) {
+                                   HStack {
+                                       Image(systemName: hasAgreedToPrivacyPolicy ? "checkmark.square.fill" : "square") // Checkbox
+                                       Text("I agree to the ")
+                                           .font(.body) + Text("Privacy Policy")
+                                           .font(.body)
+                                           .underline()
+                                           .foregroundColor(.blue)
+                                   }
+                               }
+                               .buttonStyle(PlainButtonStyle())
+                               .foregroundColor(.primary)
+                               
+                               Spacer()
+                               
+                               // Privacy Policy Link
+                               Button("Read here") {
+                                   if let url = URL(string: "https://www.eccchicago.org/eula.html") {
+                                       openURL(url) // Attempt to open the privacy policy URL
+                                   }
+                               }
+                               .foregroundColor(.blue)
+                               .font(.body)
+                           }
+                           .padding(.top)
+                           
+                           // Sign Up button
+                           Button(action: {
+                               Task {
+                                   try await viewModel.createUser()
+                               }
+                           }) {
+                               Text("Sign Up")
+                                   .foregroundColor(.white)
+                                   .fontWeight(.semibold)
+                                   .frame(maxWidth: .infinity)
+                                   .padding()
+                                   .background(Color.blue)
+                                   .cornerRadius(10)
+                           }
+                           .disabled(!formIsValid || !hasAgreedToPrivacyPolicy) // Disabled if form is invalid or privacy policy is not agreed to
+                .opacity(formIsValid && hasAgreedToPrivacyPolicy ? 1 : 0.7)
                 
                 
                 NavigationLink {
