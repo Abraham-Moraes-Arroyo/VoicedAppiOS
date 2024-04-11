@@ -52,7 +52,7 @@ class ForumViewModel: ObservableObject {
         }
     }
 
-    private func fetchBlockedUsers() async {
+     func fetchBlockedUsers() async {
             guard let currentUserId = Auth.auth().currentUser?.uid else { return }
             do {
                 blockedUsers = try await UserService.fetchBlockedUsers(forUserId: currentUserId)
@@ -60,8 +60,6 @@ class ForumViewModel: ObservableObject {
                 print("Error fetching blocked users: \(error)")
             }
         }
-
-    
     
     // Method to set the current category and filter posts accordingly by calling applyCategoryFilter(category:)
     

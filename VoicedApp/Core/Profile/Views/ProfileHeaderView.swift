@@ -18,7 +18,7 @@ struct ProfileHeaderView: View {
                     CircularProfileImageView(user: user, size: .small)
                     
                     VStack(alignment: .leading, spacing: 3) {
-                        Text(user.username)
+                        Text(user.username .prefix(8))
                             .font(.title2)
                             .fontWeight(.semibold)
                         
