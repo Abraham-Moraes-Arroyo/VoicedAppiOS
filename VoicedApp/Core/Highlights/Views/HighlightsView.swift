@@ -328,7 +328,7 @@ struct HighlightsView: View { // make sure that this is differnet
                  
                     
                     BarMark(x:.value("type", "Closed Pothole calls"),
-                            y:.value("Closed Issues",  viewModel.alleyClosedComplaintPot.count))
+                            y:.value("Closed Issues",  viewModel.alleyOpenComplaintPot.count))
                     
 //                    This is for ALL street and alley potholes
                     BarMark(x:.value("type", "Open Pothole calls"),
