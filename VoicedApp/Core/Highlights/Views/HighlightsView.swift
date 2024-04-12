@@ -77,7 +77,6 @@ class SanitationStatusCompleteShown: ObservableObject {
     // Below is for the ALLEY potholes
     @Published var alleyOpenComplaintPot: [PotholeComplaint] = []
     @Published var alleyClosedComplaintPot: [PotholeComplaint] = []
-
     
 //    closedComplaintPot
     
@@ -89,14 +88,14 @@ class SanitationStatusCompleteShown: ObservableObject {
         getOpenComplaintsCallPot()
         getClosedComplaintsCallPot()
         
-        
+//      getClosedComplaintsCallPotAlley
         getOpenComplaintsCallPotAlley()
         getClosedComplaintsCallPotAlley()
     }
     
-    //first getOpenComplaintsCallPot complaint Closed
+    // This is for CLOSSED ALLEY and STREET POTHOLES
     func getClosedComplaintsCallPotAlley() {
-        let urlString = "https://data.cityofchicago.org/resource/v6vf-nfxy.json?sr_type=Pothole%20in%20Street%20Complaint&&community_area=61&&status=Open"
+        let urlString = "https://data.cityofchicago.org/resource/v6vf-nfxy.json?$query=SELECT%0A%20%20%60sr_number%60%2C%0A%20%20%60sr_type%60%2C%0A%20%20%60sr_short_code%60%2C%0A%20%20%60created_department%60%2C%0A%20%20%60owner_department%60%2C%0A%20%20%60status%60%2C%0A%20%20%60origin%60%2C%0A%20%20%60created_date%60%2C%0A%20%20%60last_modified_date%60%2C%0A%20%20%60closed_date%60%2C%0A%20%20%60street_address%60%2C%0A%20%20%60city%60%2C%0A%20%20%60state%60%2C%0A%20%20%60zip_code%60%2C%0A%20%20%60street_number%60%2C%0A%20%20%60street_direction%60%2C%0A%20%20%60street_name%60%2C%0A%20%20%60street_type%60%2C%0A%20%20%60duplicate%60%2C%0A%20%20%60legacy_record%60%2C%0A%20%20%60legacy_sr_number%60%2C%0A%20%20%60parent_sr_number%60%2C%0A%20%20%60community_area%60%2C%0A%20%20%60ward%60%2C%0A%20%20%60electrical_district%60%2C%0A%20%20%60electricity_grid%60%2C%0A%20%20%60police_sector%60%2C%0A%20%20%60police_district%60%2C%0A%20%20%60police_beat%60%2C%0A%20%20%60precinct%60%2C%0A%20%20%60sanitation_division_days%60%2C%0A%20%20%60created_hour%60%2C%0A%20%20%60created_day_of_week%60%2C%0A%20%20%60created_month%60%2C%0A%20%20%60x_coordinate%60%2C%0A%20%20%60y_coordinate%60%2C%0A%20%20%60latitude%60%2C%0A%20%20%60longitude%60%2C%0A%20%20%60location%60%2C%0A%20%20%60%3A%40computed_region_rpca_8um6%60%2C%0A%20%20%60%3A%40computed_region_vrxf_vc4k%60%2C%0A%20%20%60%3A%40computed_region_6mkv_f3dw%60%2C%0A%20%20%60%3A%40computed_region_bdys_3d7i%60%2C%0A%20%20%60%3A%40computed_region_43wa_7qmu%60%2C%0A%20%20%60%3A%40computed_region_du4m_ji7t%60%0AWHERE%0A%20%20(%60created_date%60%0A%20%20%20%20%20BETWEEN%20%222024-03-01T11%3A27%3A29%22%20%3A%3A%20floating_timestamp%0A%20%20%20%20%20AND%20%222024-04-12T11%3A27%3A21%22%20%3A%3A%20floating_timestamp)%0A%20%20AND%20((%60community_area%60%20IN%20(%2261%22))%0A%20%20%20%20%20%20%20%20%20AND%20(caseless_one_of(%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%60sr_type%60%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%22Alley%20Pothole%20Complaint%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%22Pothole%20in%20Street%20Complaint%22%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20)%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20AND%20caseless_one_of(%60status%60%2C%20%22Completed%22)))%0AORDER%20BY%20%60sr_number%60%20DESC%20NULL%20FIRST "
         guard let url = URL(string: urlString) else {
             print("Invalid URL")
             return
@@ -128,9 +127,9 @@ class SanitationStatusCompleteShown: ObservableObject {
     
     
     
-    //first getOpenComplaintsCallPot complaint OPEN
+    //This is for both Street and ALLEY
     func getOpenComplaintsCallPotAlley() {
-        let urlString = "https://data.cityofchicago.org/resource/v6vf-nfxy.json?sr_type=Pothole%20in%20Street%20Complaint&&community_area=61&&status=Open"
+        let urlString = "https://data.cityofchicago.org/resource/v6vf-nfxy.json?$query=SELECT%0A%20%20%60sr_number%60%2C%0A%20%20%60sr_type%60%2C%0A%20%20%60sr_short_code%60%2C%0A%20%20%60created_department%60%2C%0A%20%20%60owner_department%60%2C%0A%20%20%60status%60%2C%0A%20%20%60origin%60%2C%0A%20%20%60created_date%60%2C%0A%20%20%60last_modified_date%60%2C%0A%20%20%60closed_date%60%2C%0A%20%20%60street_address%60%2C%0A%20%20%60city%60%2C%0A%20%20%60state%60%2C%0A%20%20%60zip_code%60%2C%0A%20%20%60street_number%60%2C%0A%20%20%60street_direction%60%2C%0A%20%20%60street_name%60%2C%0A%20%20%60street_type%60%2C%0A%20%20%60duplicate%60%2C%0A%20%20%60legacy_record%60%2C%0A%20%20%60legacy_sr_number%60%2C%0A%20%20%60parent_sr_number%60%2C%0A%20%20%60community_area%60%2C%0A%20%20%60ward%60%2C%0A%20%20%60electrical_district%60%2C%0A%20%20%60electricity_grid%60%2C%0A%20%20%60police_sector%60%2C%0A%20%20%60police_district%60%2C%0A%20%20%60police_beat%60%2C%0A%20%20%60precinct%60%2C%0A%20%20%60sanitation_division_days%60%2C%0A%20%20%60created_hour%60%2C%0A%20%20%60created_day_of_week%60%2C%0A%20%20%60created_month%60%2C%0A%20%20%60x_coordinate%60%2C%0A%20%20%60y_coordinate%60%2C%0A%20%20%60latitude%60%2C%0A%20%20%60longitude%60%2C%0A%20%20%60location%60%2C%0A%20%20%60%3A%40computed_region_rpca_8um6%60%2C%0A%20%20%60%3A%40computed_region_vrxf_vc4k%60%2C%0A%20%20%60%3A%40computed_region_6mkv_f3dw%60%2C%0A%20%20%60%3A%40computed_region_bdys_3d7i%60%2C%0A%20%20%60%3A%40computed_region_43wa_7qmu%60%2C%0A%20%20%60%3A%40computed_region_du4m_ji7t%60%0AWHERE%0A%20%20(%60created_date%60%0A%20%20%20%20%20BETWEEN%20%222024-03-01T11%3A27%3A29%22%20%3A%3A%20floating_timestamp%0A%20%20%20%20%20AND%20%222024-04-12T11%3A27%3A21%22%20%3A%3A%20floating_timestamp)%0A%20%20AND%20((%60community_area%60%20IN%20(%2261%22))%0A%20%20%20%20%20%20%20%20%20AND%20(caseless_one_of(%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%60sr_type%60%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%22Alley%20Pothole%20Complaint%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%22Pothole%20in%20Street%20Complaint%22%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20)%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20AND%20caseless_one_of(%60status%60%2C%20%22Open%22)))%0AORDER%20BY%20%60sr_number%60%20DESC%20NULL%20FIRST"
         guard let url = URL(string: urlString) else {
             print("Invalid URL")
             return
@@ -225,10 +224,11 @@ class SanitationStatusCompleteShown: ObservableObject {
             }
         }.resume()
     }
-    
+
+// Below is for street LIGHTS ONLY
     // first function OPEN STREEET LIGHT
     func getOpenComplaintsCall() {
-        let urlString = "hhttps://data.cityofchicago.org/resource/v6vf-nfxy.json?sr_type=Street%20Light%20Out%20Complaint&&community_area=61&&status=Open"
+        let urlString = "https://data.cityofchicago.org/resource/v6vf-nfxy.json?$query=SELECT%0A%20%20%60sr_number%60%2C%0A%20%20%60sr_type%60%2C%0A%20%20%60sr_short_code%60%2C%0A%20%20%60created_department%60%2C%0A%20%20%60owner_department%60%2C%0A%20%20%60status%60%2C%0A%20%20%60origin%60%2C%0A%20%20%60created_date%60%2C%0A%20%20%60last_modified_date%60%2C%0A%20%20%60closed_date%60%2C%0A%20%20%60street_address%60%2C%0A%20%20%60city%60%2C%0A%20%20%60state%60%2C%0A%20%20%60zip_code%60%2C%0A%20%20%60street_number%60%2C%0A%20%20%60street_direction%60%2C%0A%20%20%60street_name%60%2C%0A%20%20%60street_type%60%2C%0A%20%20%60duplicate%60%2C%0A%20%20%60legacy_record%60%2C%0A%20%20%60legacy_sr_number%60%2C%0A%20%20%60parent_sr_number%60%2C%0A%20%20%60community_area%60%2C%0A%20%20%60ward%60%2C%0A%20%20%60electrical_district%60%2C%0A%20%20%60electricity_grid%60%2C%0A%20%20%60police_sector%60%2C%0A%20%20%60police_district%60%2C%0A%20%20%60police_beat%60%2C%0A%20%20%60precinct%60%2C%0A%20%20%60sanitation_division_days%60%2C%0A%20%20%60created_hour%60%2C%0A%20%20%60created_day_of_week%60%2C%0A%20%20%60created_month%60%2C%0A%20%20%60x_coordinate%60%2C%0A%20%20%60y_coordinate%60%2C%0A%20%20%60latitude%60%2C%0A%20%20%60longitude%60%2C%0A%20%20%60location%60%2C%0A%20%20%60%3A%40computed_region_rpca_8um6%60%2C%0A%20%20%60%3A%40computed_region_vrxf_vc4k%60%2C%0A%20%20%60%3A%40computed_region_6mkv_f3dw%60%2C%0A%20%20%60%3A%40computed_region_bdys_3d7i%60%2C%0A%20%20%60%3A%40computed_region_43wa_7qmu%60%2C%0A%20%20%60%3A%40computed_region_du4m_ji7t%60%0AWHERE%0A%20%20(%60created_date%60%0A%20%20%20%20%20BETWEEN%20%222024-03-01T11%3A27%3A29%22%20%3A%3A%20floating_timestamp%0A%20%20%20%20%20AND%20%222024-04-12T11%3A27%3A21%22%20%3A%3A%20floating_timestamp)%0A%20%20AND%20((%60community_area%60%20IN%20(%2261%22))%0A%20%20%20%20%20%20%20%20%20AND%20(caseless_one_of(%60sr_type%60%2C%20%22Street%20Light%20Out%20Complaint%22)%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20AND%20caseless_one_of(%60status%60%2C%20%22Open%22)))%0AORDER%20BY%20%60sr_number%60%20DESC%20NULL%20FIRST"
         guard let url = URL(string: urlString) else {
             print("Invalid URL")
             return
@@ -261,7 +261,7 @@ class SanitationStatusCompleteShown: ObservableObject {
     
     //Clossed state function for Street
     func getCompletedPotholeState() {
-        let urlString = "https://data.cityofchicago.org/resource/v6vf-nfxy.json?sr_type=Street%20Light%20Out%20Complaint&&community_area=61&&status=Completed"
+        let urlString = "https://data.cityofchicago.org/resource/v6vf-nfxy.json?$query=SELECT%0A%20%20%60sr_number%60%2C%0A%20%20%60sr_type%60%2C%0A%20%20%60sr_short_code%60%2C%0A%20%20%60created_department%60%2C%0A%20%20%60owner_department%60%2C%0A%20%20%60status%60%2C%0A%20%20%60origin%60%2C%0A%20%20%60created_date%60%2C%0A%20%20%60last_modified_date%60%2C%0A%20%20%60closed_date%60%2C%0A%20%20%60street_address%60%2C%0A%20%20%60city%60%2C%0A%20%20%60state%60%2C%0A%20%20%60zip_code%60%2C%0A%20%20%60street_number%60%2C%0A%20%20%60street_direction%60%2C%0A%20%20%60street_name%60%2C%0A%20%20%60street_type%60%2C%0A%20%20%60duplicate%60%2C%0A%20%20%60legacy_record%60%2C%0A%20%20%60legacy_sr_number%60%2C%0A%20%20%60parent_sr_number%60%2C%0A%20%20%60community_area%60%2C%0A%20%20%60ward%60%2C%0A%20%20%60electrical_district%60%2C%0A%20%20%60electricity_grid%60%2C%0A%20%20%60police_sector%60%2C%0A%20%20%60police_district%60%2C%0A%20%20%60police_beat%60%2C%0A%20%20%60precinct%60%2C%0A%20%20%60sanitation_division_days%60%2C%0A%20%20%60created_hour%60%2C%0A%20%20%60created_day_of_week%60%2C%0A%20%20%60created_month%60%2C%0A%20%20%60x_coordinate%60%2C%0A%20%20%60y_coordinate%60%2C%0A%20%20%60latitude%60%2C%0A%20%20%60longitude%60%2C%0A%20%20%60location%60%2C%0A%20%20%60%3A%40computed_region_rpca_8um6%60%2C%0A%20%20%60%3A%40computed_region_vrxf_vc4k%60%2C%0A%20%20%60%3A%40computed_region_6mkv_f3dw%60%2C%0A%20%20%60%3A%40computed_region_bdys_3d7i%60%2C%0A%20%20%60%3A%40computed_region_43wa_7qmu%60%2C%0A%20%20%60%3A%40computed_region_du4m_ji7t%60%0AWHERE%0A%20%20(%60created_date%60%0A%20%20%20%20%20BETWEEN%20%222024-03-01T11%3A27%3A29%22%20%3A%3A%20floating_timestamp%0A%20%20%20%20%20AND%20%222024-04-12T11%3A27%3A21%22%20%3A%3A%20floating_timestamp)%0A%20%20AND%20((%60community_area%60%20IN%20(%2261%22))%0A%20%20%20%20%20%20%20%20%20AND%20(caseless_one_of(%60sr_type%60%2C%20%22Street%20Light%20Out%20Complaint%22)%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20AND%20caseless_one_of(%60status%60%2C%20%22Completed%22)))%0AORDER%20BY%20%60sr_number%60%20DESC%20NULL%20FIRST"
         guard let url = URL(string: urlString) else {
             print("Invalid URL")
             return
@@ -318,22 +318,21 @@ struct HighlightsView: View { // make sure that this is differnet
                 }
                 .offset(y: 70.0)
                 Chart{
+//                    These are for Street lights
                     BarMark(x:.value("type", "Open Light Reports calls"),
                             y:.value("Open Issues", viewModel.openComplaints.count))
                     
                     BarMark(x:.value("type", "Closed Light Reports calls"),
                             y:.value("Completed Issues", viewModel.completedComplaints.count))
                      
-                    
-                    // Below is where I combined both alley and street potholes
+                 
                     
                     BarMark(x:.value("type", "Closed Pothole calls"),
-                            y:.value("Closed Issues", viewModel.closedComplaintPot.count +  viewModel.alleyClosedComplaintPot.count))
+                            y:.value("Closed Issues",  viewModel.alleyOpenComplaintPot.count))
                     
-                    //alleyOpenComplaintPot
-//                    247
+//                    This is for ALL street and alley potholes
                     BarMark(x:.value("type", "Open Pothole calls"),
-                            y:.value("Open Issues", viewModel.openComplaintPot.count + viewModel.alleyOpenComplaintPot.count))
+                            y:.value("Open Issues", viewModel.alleyOpenComplaintPot.count))
                 
                 }
                 .aspectRatio(1, contentMode: .fit)
@@ -355,8 +354,8 @@ struct HighlightsView: View { // make sure that this is differnet
 
                     VStack{
                         Text("Pothole Reports completed")
-                        var denom = (viewModel.alleyOpenComplaintPot.count + viewModel.openComplaintPot.count )
-                        var averagePot = (viewModel.alleyClosedComplaintPot.count + viewModel.closedComplaintPot.count) % 100
+             
+                        var averagePot = (viewModel.alleyOpenComplaintPot.count + viewModel.alleyClosedComplaintPot.count) % 100
                         
 //                        var comb = averageSan / denom
                         Text("\(averagePot) %")
