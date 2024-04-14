@@ -29,15 +29,12 @@ struct ForumView: View {
                             }
                     }
                 }
-                .background(Color(red: 0.973, green: 0.949, blue: 0.875)) // #f8f2df)
-
-                .edgesIgnoringSafeArea(.all)
+ 
             }
             
             .navigationDestination(for: Post.self, destination: { post in
                 PostDetailsView(post: post)
             })
-            .background(Color(red: 0.973, green: 0.949, blue: 0.875)) // #f8f2df)
 
 
          
@@ -74,9 +71,7 @@ struct ForumView: View {
 
             .foregroundColor(.black)
         }
-        .background(Color(red: 0.812, green: 0.863, blue: 0.906)) // #cfdce7
-      
-        .edgesIgnoringSafeArea(.all)
+
         .navigationDestination(for: User.self, destination: { user in
                                 if user.isCurrentUser {
                                     CurrentUserProfileView(user: user)

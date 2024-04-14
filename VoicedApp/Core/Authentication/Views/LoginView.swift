@@ -82,14 +82,13 @@ struct LoginView: View {
                 .padding(.vertical, 16)
                 
             }
-            .background(Color(red: 0.973, green: 0.949, blue: 0.875)) // #f8f2df)
+    
 
             .alert(isPresented: $viewModel.showAlert) {
                             Alert(title: Text("Error"),
                                   message: Text(viewModel.authError?.description ?? ""))
         }
     }
-        .background(Color(red: 0.973, green: 0.949, blue: 0.875)) // #f8f2df)
 
         
     }

@@ -62,14 +62,12 @@ struct UserContentListView: View {
                         }
                     }
                 }
-                .background(Color(red: 0.973, green: 0.949, blue: 0.875)) // #f8f2df)
 
             }
             .onAppear {
                 fetchData(for: selectedFilter)
             }
         }
-        .background(Color(red: 0.973, green: 0.949, blue: 0.875)) // #f8f2df)
 
     }
     

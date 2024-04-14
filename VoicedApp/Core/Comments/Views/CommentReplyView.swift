@@ -100,7 +100,7 @@ struct CommentReplyView: View {
                 
                 Spacer()
             }
-            .background(Color(red: 0.973, green: 0.949, blue: 0.875)) // #f8f2df)
+          
 
             .onAppear { setCommentViewHeight() }
             .navigationTitle("Reply")

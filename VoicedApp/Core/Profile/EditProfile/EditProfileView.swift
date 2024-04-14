@@ -73,7 +73,6 @@ struct EditProfileView: View {
                 }
                 .padding()
             }
-            .background(Color(red: 0.973, green: 0.949, blue: 0.875)) // #f8f2df)
             .navigationTitle("Edit Profile")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -106,7 +105,6 @@ struct EditProfileView: View {
             
             
         }
-        .background(Color(red: 0.973, green: 0.949, blue: 0.875)) // #f8f2df)
     }
 }
 

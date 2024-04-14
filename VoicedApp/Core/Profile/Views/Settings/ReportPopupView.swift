@@ -35,7 +35,6 @@ struct ReportPopupView: View {
             .fontWeight(.semibold)
             .foregroundColor(.white)
             .frame(width: 352, height: 44)
-            .background(Color(red: 0.973, green: 0.949, blue: 0.875)) // #f8f2df)
             .cornerRadius(8)
             .disabled(reason.isEmpty)
             .opacity(!reason.isEmpty ? 1 : 0.7)

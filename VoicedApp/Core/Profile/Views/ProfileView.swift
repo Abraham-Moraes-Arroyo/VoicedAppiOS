@@ -25,10 +25,8 @@ struct ProfileView: View {
                 // user content list view
                 UserContentListView(user: user)
             }
-            .background(Color(red: 0.973, green: 0.949, blue: 0.875)) // #f8f2df)
 
         }
-        .background(Color(red: 0.973, green: 0.949, blue: 0.875)) // #f8f2df)
 
         .padding(.horizontal)
         .navigationBarTitle("Profile")

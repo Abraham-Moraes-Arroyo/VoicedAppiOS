@@ -36,8 +36,6 @@ struct PostDetailsView: View {
                 }
             }
         }
-        .background(Color(red: 0.973, green: 0.949, blue: 0.875)) // #f8f2df)
-
         .navigationTitle("Post")
         .navigationBarTitleDisplayMode(.inline)
     }

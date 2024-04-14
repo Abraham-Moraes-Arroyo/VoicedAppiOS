@@ -194,7 +194,6 @@ struct RegistrationView: View {
             }
             .padding()
         }
-        .background(Color(red: 0.973, green: 0.949, blue: 0.875)) // #f8f2df)
 
         .foregroundColor(.black)
         .navigationBarTitle("Sign Up", displayMode: .inline)
