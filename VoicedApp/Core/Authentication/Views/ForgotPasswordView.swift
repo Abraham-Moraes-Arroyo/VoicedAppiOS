@@ -22,7 +22,7 @@ struct ForgotPasswordView: View {
         VStack {
             Spacer()
             
-            Image("voiced-sign-in")
+            Image("Voicedsignin")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 180, height: 180)
@@ -66,6 +66,9 @@ struct ForgotPasswordView: View {
             }
             .padding(.vertical, 16)
         }
+        .background(Color(red: 0.973, green: 0.949, blue: 0.875)) // #f8f2df)
+
+        .edgesIgnoringSafeArea(.all)
         .alert(isPresented: $viewModel.didSendEmail) {
             Alert(
                 title: Text("Email sent"),

@@ -146,6 +146,8 @@ struct ForumCell: View {
             
             Divider()
         }
+        .background(Color(red: 0.973, green: 0.949, blue: 0.875)) // #f8f2df)
+
     }
     @ViewBuilder
     var actionButtons: some View {
@@ -194,6 +196,8 @@ struct ForumCell: View {
                 Button(action: { showingReportSheet = true }) {
                     Image(systemName: "flag")
                 }
+                .background(Color(red: 0.973, green: 0.949, blue: 0.875)) // #f8f2df)
+
                 .actionSheet(isPresented: $showingReportSheet) {
                     ActionSheet(title: Text("Confirm Report"), message: Text("Submit your report?"), buttons: [
                         .destructive(Text("Report"), action: {
@@ -250,7 +254,8 @@ struct ForumCell: View {
                                 Label("", systemImage: "flag")
                                     .padding()
                                     
-                                    .background(Color.white)
+                                    .background(Color(red: 0.973, green: 0.949, blue: 0.875)) // #f8f2df)
+
                                     .clipShape(Capsule())
                             }
                             .sheet(isPresented: $showReportPopup) {
