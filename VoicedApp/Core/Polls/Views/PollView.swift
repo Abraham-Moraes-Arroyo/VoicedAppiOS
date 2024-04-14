@@ -35,7 +35,7 @@ struct PollView: View {
             }
         }
         .padding()
-        .background(Color.white.opacity(0.9))
+        .background(Color(red: 0.973, green: 0.949, blue: 0.875)) // #f8f2df)
         .cornerRadius(12)
         .shadow(radius: 5)
         .padding()

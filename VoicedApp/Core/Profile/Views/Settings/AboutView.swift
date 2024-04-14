@@ -12,7 +12,7 @@ struct AboutView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                Image("voiced-sign-in")
+                Image("Voicedsignin")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 150, height: 150)
