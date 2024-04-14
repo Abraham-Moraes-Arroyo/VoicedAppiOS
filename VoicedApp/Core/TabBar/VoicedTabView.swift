@@ -21,9 +21,7 @@ struct VoicedTabView: View {
                         }
                         .onAppear { selectedTab = 0 }
                         .tag(0)
-                        .background(Color(red: 0.957, green: 0.925, blue: 0.839))
-                        // #9fb1bc
-                        .edgesIgnoringSafeArea(.all)
+                        
                     
             
             UploadPostView(tabIndex: $selectedTab)
@@ -33,8 +31,7 @@ struct VoicedTabView: View {
                         .onAppear { selectedTab = 1 }
                         .tag(1)
                         .background(Color(red: 0.957, green: 0.925, blue: 0.839))
-                        // #9fb1bc
-                        .edgesIgnoringSafeArea(.all)
+
             
 //            PollsView()
 //            CreatePollView()
@@ -68,9 +65,7 @@ struct VoicedTabView: View {
                 
         }
         .tint(Color(red: 127/255, green: 202/255, blue: 166/255))
-        .background(Color(red: 0.957, green: 0.925, blue: 0.839))
-        // #9fb1bc
-        .edgesIgnoringSafeArea(.all)
+        .background(Color(red: 0.973, green: 0.949, blue: 0.875)) // #f8f2df)
     }
 }
 
