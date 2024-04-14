@@ -15,6 +15,12 @@ struct CommentReplyView: View {
     @State var postReplyHeight: CGFloat = 24
     @State private var viewModel = PostReplyViewModel()
     
+    @State private var suggestions: [User] = []
+    
+        @State private var showSuggestions = false
+    
+    @StateObject private var searchViewModel = SearchViewModel()
+    
     private var currentUser: User? {
         return AuthService.shared.currentUser
     }
@@ -71,8 +77,22 @@ struct CommentReplyView: View {
                             
                             TextField("Add your reply", text: $replyText, axis: .vertical)
                                 .multilineTextAlignment(.leading)
+                                .onChange(of: replyText) { newValue in
+                                                        handleMentions(text: newValue)
+                                                    }
                         }
                         .font(.footnote)
+                        
+                        if showSuggestions {
+                                            List(suggestions, id: \.id) { user in
+                                                Text(user.username)
+                                                    .foregroundStyle(.blue)
+                                                    .onTapGesture {
+                                                        addMentionToReply(for: user)
+                                                    }
+                                            }
+                                            .frame(maxHeight: 200)
+                                        }
                     }
                 }
                 .padding()
@@ -108,8 +128,27 @@ struct CommentReplyView: View {
             }
         }
     }
+    
+    
+    private func handleMentions(text: String) {
+          guard let lastWord = text.split(separator: " ").last, lastWord.starts(with: "@") else {
+              showSuggestions = false
+              return
+          }
+          let query = lastWord.dropFirst().lowercased()
+          searchUser(with: String(query))
+      }
+      private func searchUser(with query: String) {
+          suggestions = searchViewModel.users.filter { $0.username.lowercased().contains(query) }
+          showSuggestions = !suggestions.isEmpty
+      }
+      private func addMentionToReply(for user: User) {
+          let newText = replyText.dropLast() + " @\(user.username) "
+          replyText = String(newText)
+          showSuggestions = false
+      }
 }
-
 #Preview {
     CommentReplyView(post: Post.MOCK_POSTS[0])
 }
+
